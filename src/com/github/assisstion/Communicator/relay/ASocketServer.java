@@ -3,6 +3,7 @@ package com.github.assisstion.Communicator.relay;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -95,5 +96,9 @@ public class ASocketServer<T extends ASocketHandler> implements ASocketMachine{
 			}
 		}
 
+	}
+
+	public List<T> getClientList(){
+		return Collections.unmodifiableList(clients);
 	}
 }
