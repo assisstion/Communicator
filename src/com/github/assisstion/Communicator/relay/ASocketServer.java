@@ -20,11 +20,15 @@ public class ASocketServer<T extends ASocketHandler> implements ASocketMachine{
 		clients = new LinkedList<T>();
 	}
 
-	public ASocketServer(int port, ASocketHandlerGenerator<T> gen) throws IOException{
+	public ASocketServer(ServerSocket socket, ASocketHandlerGenerator<T> gen) throws IOException{
 		this();
 		generator = gen;
-		server = new ServerSocket(port);
+		server = socket;
 		new Thread(this).start();
+	}
+
+	public ASocketServer(int port, ASocketHandlerGenerator<T> gen) throws IOException{
+		this(new ServerSocket(port), gen);
 	}
 
 	@Override

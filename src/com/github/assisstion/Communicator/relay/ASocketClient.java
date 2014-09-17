@@ -16,11 +16,15 @@ public class ASocketClient<T extends ASocketHandler> implements ASocketMachine{
 
 	}
 
-	public ASocketClient(String host, int port, ASocketHandler handler) throws IOException{
+	public ASocketClient(Socket socket, ASocketHandler handler) throws IOException{
 		this();
 		this.handler = handler;
-		client = new Socket(host, port);
+		client = socket;
 		new Thread(this).start();
+	}
+
+	public ASocketClient(String host, int port, ASocketHandler handler) throws IOException{
+		this(new Socket(host, port), handler);
 	}
 
 	public Socket getClientSocket(){
