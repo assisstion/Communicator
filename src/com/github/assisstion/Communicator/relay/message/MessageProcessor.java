@@ -11,14 +11,14 @@ public class MessageProcessor extends CAbstractSocketProcessor{
 	@Override
 	public void output(String out) throws IOException{
 		super.output(out);
-		System.out.println("Sent!");
+		//System.out.println("Sent!");
 	}
 
 	//Sleeps for 1 second and prints the message
 	@Override
 	public void input(String in){
 		try{
-			Thread.sleep(1000);
+			Thread.sleep(1);
 		}
 		catch(InterruptedException e){
 			// TODO Auto-generated catch block

@@ -1,41 +1,42 @@
 package com.github.assisstion.Communicator;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 
 import com.github.assisstion.Communicator.relay.ASocketClient;
 import com.github.assisstion.Communicator.relay.ASocketHandler;
-import com.github.assisstion.Communicator.relay.ASocketServer;
 import com.github.assisstion.Communicator.relay.CSocketHelper;
 import com.github.assisstion.Communicator.relay.message.MessageProcessor;
-import com.github.assisstion.Communicator.relay.message.MessageProcessorGenerator;
 
 public class Main{
 	public static void main(String[] args){
-		int port = 59025;
+		int port = 59026;
 		MessageProcessor process = new MessageProcessor();
 
-		try(ASocketServer<ASocketHandler> server =
-				CSocketHelper.getServer(port, new MessageProcessorGenerator());
+		try(//ASocketServer<ASocketHandler> server =
+				//CSocketHelper.getServer(port, new MessageProcessorGenerator());
 				ASocketClient<ASocketHandler> client =
-						CSocketHelper.getClient("localhost", port, process);){
+				CSocketHelper.getClient("172.25.50.172", port, process);
+				BufferedReader in = new BufferedReader(new InputStreamReader(System.in))){
 			System.out.println("Started...");
-			server.open();
+			//server.open();
 			System.out.println("Server opened!");
 			client.open();
 			System.out.println("Client opened!");
-			process.output("Hello, world!");
-			process.output("Hello, world!");
-			process.output("Hello, world!");
-			Thread.sleep(3000);
+			boolean on = true;
+			while(on){
+				String s = in.readLine();
+				if(s.equals("QUIT")){
+					break;
+				}
+				process.output(s);
+			}
 			System.out.println("Done!");
 		}
 		catch(IOException e1){
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
-		}
-		catch(InterruptedException e){
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
 	}
 }
