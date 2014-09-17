@@ -2,10 +2,11 @@ package com.github.assisstion.Communicator.relay.message;
 
 import java.io.IOException;
 
+import com.github.assisstion.Communicator.relay.BSocketProcessorGenerator;
 import com.github.assisstion.Communicator.relay.CAbstractSocketProcessor;
 
 
-public class MessageProcessor extends CAbstractSocketProcessor{
+public class MessageProcessor extends CAbstractSocketProcessor implements BSocketProcessorGenerator<MessageProcessor>{
 
 	//Sends the message, then prints "Sent!"
 	@Override
@@ -25,6 +26,11 @@ public class MessageProcessor extends CAbstractSocketProcessor{
 			e.printStackTrace();
 		}
 		System.out.println(in);
+	}
+
+	@Override
+	public MessageProcessor generate(){
+		return this;
 	}
 
 }
