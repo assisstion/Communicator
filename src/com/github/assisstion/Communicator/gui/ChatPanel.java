@@ -10,12 +10,14 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.PipedInputStream;
 import java.io.PipedOutputStream;
-import java.util.Scanner;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+
+import com.github.assisstion.Communicator.relay.message.MessageProcessor;
 
 public class ChatPanel extends JPanel implements Runnable{
 
@@ -23,7 +25,6 @@ public class ChatPanel extends JPanel implements Runnable{
 
 	protected Logger logger;
 	protected LoggerPane loggerPane;
-	protected String location;
 	private JPanel panel;
 	private JTextField textField;
 	private JButton btnGo;
@@ -33,9 +34,13 @@ public class ChatPanel extends JPanel implements Runnable{
 	protected DataOutputStream dos;
 	protected DataInputStream dis;
 
-	protected Scanner sc;
-	public ChatPanel(String location, boolean excludeOn){
-		this.location = location;
+	protected MessageProcessor mp;
+
+	private boolean done;
+
+	public ChatPanel(MessageProcessor processor){
+
+		mp = processor;
 
 		logger = Logger.getLogger("main");
 		setLayout(new BorderLayout(0, 0));
@@ -86,12 +91,39 @@ public class ChatPanel extends JPanel implements Runnable{
 
 		dos = new DataOutputStream(pos);
 		dis = new DataInputStream(pis);
-
-		sc = new Scanner(dis);
 	}
 
 	@Override
 	public void run(){
-		//TODO incomplete
+		done = false;
+		try{
+			while(true){
+				String input = null;
+				try{
+					input = dis.readUTF();
+				}
+				catch(IOException e){
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				if(logger.isLoggable(Level.INFO)){
+					logger.info(input);
+				}
+				try{
+					mp.output(input, false);
+				}
+				catch(IOException e){
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+		finally{
+			done = true;
+		}
+	}
+
+	public boolean isDone(){
+		return done;
 	}
 }

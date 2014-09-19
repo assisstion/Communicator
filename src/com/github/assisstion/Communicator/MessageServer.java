@@ -23,7 +23,7 @@ public class MessageServer{
 				if(s.equalsIgnoreCase("QUIT")){
 					break;
 				}
-				process.output(s);
+				process.output(s, false);
 			}
 			System.out.println("Done!");
 		}

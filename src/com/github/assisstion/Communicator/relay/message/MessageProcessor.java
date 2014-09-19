@@ -1,6 +1,7 @@
 package com.github.assisstion.Communicator.relay.message;
 
-import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import com.github.assisstion.Communicator.relay.BSocketProcessorGenerator;
 import com.github.assisstion.Communicator.relay.CAbstractSocketProcessor;
@@ -8,11 +9,14 @@ import com.github.assisstion.Communicator.relay.CAbstractSocketProcessor;
 
 public class MessageProcessor extends CAbstractSocketProcessor implements BSocketProcessorGenerator<MessageProcessor>{
 
-	//Sends the message, then prints "Sent!"
-	@Override
-	public void output(String out) throws IOException{
-		super.output(out);
-		//System.out.println("Sent!");
+	public Logger logger = null;
+
+	public MessageProcessor(){
+
+	}
+
+	public MessageProcessor(Logger log){
+		logger = log;
 	}
 
 	//Sleeps for 1 second and prints the message
@@ -25,7 +29,14 @@ public class MessageProcessor extends CAbstractSocketProcessor implements BSocke
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		System.out.println(in);
+		if(logger == null){
+			System.out.println(in);
+		}
+		else{
+			if(logger.isLoggable(Level.INFO)){
+				logger.info(in);
+			}
+		}
 	}
 
 	@Override
