@@ -10,10 +10,12 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.PipedInputStream;
 import java.io.PipedOutputStream;
+import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
@@ -22,6 +24,8 @@ import com.github.assisstion.Communicator.relay.message.MessageProcessor;
 public class ChatPanel extends JPanel implements Runnable{
 
 	private static final long serialVersionUID = -3723376082239462955L;
+
+	protected int id;
 
 	protected Logger logger;
 	protected LoggerPane loggerPane;
@@ -37,8 +41,14 @@ public class ChatPanel extends JPanel implements Runnable{
 	protected MessageProcessor mp;
 
 	private boolean done;
+	private JPanel panel_1;
+	private JLabel lblNick;
+	private JTextField nick;
 
 	public ChatPanel(MessageProcessor processor){
+
+		Random random = new Random();
+		id = random.nextInt(100000);
 
 		mp = processor;
 
@@ -72,6 +82,16 @@ public class ChatPanel extends JPanel implements Runnable{
 			}
 		});
 		panel.add(btnGo);
+
+		panel_1 = new JPanel();
+		loggerPane.add(panel_1, BorderLayout.NORTH);
+
+		lblNick = new JLabel("Nick:");
+		panel_1.add(lblNick);
+
+		nick = new JTextField();
+		panel_1.add(nick);
+		nick.setColumns(10);
 
 		textField.addKeyListener(new KeyAdapter(){
 			@Override
@@ -108,6 +128,11 @@ public class ChatPanel extends JPanel implements Runnable{
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
+				String nickInput = nick.getText();
+				if(nickInput.length() == 0){
+					nickInput = "Guest_" + id;
+				}
+				input = nickInput + ": " + input;
 				if(logger.isLoggable(Level.INFO)){
 					logger.info(input);
 				}
