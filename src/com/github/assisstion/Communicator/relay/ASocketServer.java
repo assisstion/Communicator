@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
 
-public class ASocketServer<T extends ASocketHandler> implements ASocketMachine{
+public class ASocketServer<T extends ASocketHandler> implements ISocketServerMachine<T>{
 
 	protected boolean open;
 
@@ -103,26 +103,41 @@ public class ASocketServer<T extends ASocketHandler> implements ASocketMachine{
 
 	}
 
+	@Override
+	public ServerSocket getServerSocket(){
+		return server;
+	}
+
+	public ASocketHandlerGenerator<T> getHandlerGenerator(){
+		return generator;
+	}
+
+	@Override
 	public List<T> getClientList(){
 		return Collections.unmodifiableList(clients);
 	}
 
+	@Override
 	public Set<LSocketListener<T>> getListenerSet(){
 		return Collections.unmodifiableSet(listeners);
 	}
 
+	@Override
 	public void addListener(LSocketListener<T> listener){
 		listeners.add(listener);
 	}
 
+	@Override
 	public void addListeners(Set<LSocketListener<T>> listeners){
 		listeners.addAll(listeners);
 	}
 
+	@Override
 	public void removeListener(LSocketListener<T> listener){
 		listeners.remove(listener);
 	}
 
+	@Override
 	public void removeListeners(Set<LSocketListener<T>> listeners){
 		listeners.removeAll(listeners);
 	}
