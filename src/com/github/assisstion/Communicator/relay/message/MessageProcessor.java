@@ -18,6 +18,7 @@ public class MessageProcessor extends CSocketProcessorAbstract implements BSocke
 
 	@Override
 	public void attachHandler(ASocketHandler handler){
+		super.attachHandler(handler);
 		String info = "Attached handler: " + handler.getSocket();
 		if(logger == null){
 			System.out.println(info);
@@ -31,6 +32,7 @@ public class MessageProcessor extends CSocketProcessorAbstract implements BSocke
 
 	@Override
 	public void removeHandler(ASocketHandler handler){
+		super.removeHandler(handler);
 		String info = "Removed handler: " + handler.getSocket();
 		if(logger == null){
 			System.out.println(info);
