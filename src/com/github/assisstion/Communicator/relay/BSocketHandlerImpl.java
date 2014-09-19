@@ -120,6 +120,7 @@ public class BSocketHandlerImpl implements ASocketHandler{
 			return;
 		}
 		closed = true;
+		processor.removeHandler(this);
 		socket.close();
 	}
 
@@ -136,6 +137,11 @@ public class BSocketHandlerImpl implements ASocketHandler{
 			processor.input(in);
 		}
 
+	}
+
+	@Override
+	public Socket getSocket(){
+		return socket;
 	}
 
 }
