@@ -7,6 +7,8 @@ import java.awt.event.ActionListener;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.LinkedList;
+import java.util.List;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -33,7 +35,7 @@ public class ChatFrame extends JFrame{
 	private JTextField cHost;
 	private JTextField cPort;
 	private JTextField sPort;
-	protected ChatPanel panel;
+	protected List<ChatPanel> panels;
 	private JPanel panelX;
 
 	/**
@@ -58,6 +60,8 @@ public class ChatFrame extends JFrame{
 	 * Create the frame.
 	 */
 	public ChatFrame(){
+		panels = new LinkedList<ChatPanel>();
+
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
@@ -149,10 +153,8 @@ public class ChatFrame extends JFrame{
 	}
 
 	public void startClient(String host, int port, MessageProcessor process) throws IOException{
-		panel = new ChatPanel(process);
-		contentPane.remove(panelX);
-		contentPane.add(panel);
-		new Thread(new ClientStarter(host, port, process)).start();
+		ChatPanel panel = generatePanel(process);
+		new Thread(new ClientStarter(panel, host, port, process)).start();
 		validate();
 	}
 
@@ -161,8 +163,10 @@ public class ChatFrame extends JFrame{
 		protected String host;
 		protected int port;
 		protected MessageProcessor process;
+		protected ChatPanel panel;
 
-		public ClientStarter(String host, int port, MessageProcessor process){
+		public ClientStarter(ChatPanel panel, String host, int port, MessageProcessor process){
+			this.panel = panel;
 			this.host = host;
 			this.port = port;
 			this.process = process;
@@ -201,10 +205,8 @@ public class ChatFrame extends JFrame{
 	}
 
 	public void startServer(int port, MessageProcessor process) throws IOException{
-		contentPane.remove(panelX);
-		panel = new ChatPanel(process);
-		contentPane.add(panel);
-		new Thread(new ServerStarter(port, process)).start();
+		ChatPanel panel = generatePanel(process);
+		new Thread(new ServerStarter(panel, port, process)).start();
 		validate();
 	}
 
@@ -212,8 +214,10 @@ public class ChatFrame extends JFrame{
 
 		protected int port;
 		protected MessageProcessor process;
+		protected ChatPanel panel;
 
-		public ServerStarter(int port, MessageProcessor process){
+		public ServerStarter(ChatPanel panel, int port, MessageProcessor process){
+			this.panel = panel;
 			this.port = port;
 			this.process = process;
 		}
@@ -246,5 +250,16 @@ public class ChatFrame extends JFrame{
 				e1.printStackTrace();
 			}
 		}
+	}
+
+	public ChatPanel generatePanel(MessageProcessor process){
+		ChatPanel panel = new ChatPanel(process);
+		panels.add(panel);
+		JFrame frame = new JFrame();
+		frame.setBounds(150, 150, 450, 300);
+		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		frame.setContentPane(panel);
+		frame.setVisible(true);
+		return panel;
 	}
 }
