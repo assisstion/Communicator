@@ -5,7 +5,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
-public abstract class CAbstractSocketProcessor implements BSocketProcessor{
+public abstract class CSocketProcessorAbstract implements BSocketProcessor{
 
 	protected Set<ASocketHandler> handlers = new HashSet<ASocketHandler>();
 

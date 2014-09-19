@@ -4,10 +4,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.github.assisstion.Communicator.relay.BSocketProcessorGenerator;
-import com.github.assisstion.Communicator.relay.CAbstractSocketProcessor;
+import com.github.assisstion.Communicator.relay.CSocketProcessorAbstract;
 
 
-public class MessageProcessor extends CAbstractSocketProcessor implements BSocketProcessorGenerator<MessageProcessor>{
+public class MessageProcessor extends CSocketProcessorAbstract implements BSocketProcessorGenerator<MessageProcessor>{
 
 	public Logger logger = null;
 
