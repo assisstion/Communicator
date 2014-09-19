@@ -19,7 +19,6 @@ public class BSocketHandlerImpl implements ASocketHandler{
 
 	public BSocketHandlerImpl(BSocketProcessor processor){
 		this.processor = processor;
-		processor.attachHandler(this);
 	}
 
 	public BSocketHandlerImpl(Socket socket, BSocketProcessor processor){
@@ -29,6 +28,7 @@ public class BSocketHandlerImpl implements ASocketHandler{
 
 	public synchronized void openSocket(Socket socket){
 		this.socket = socket;
+		processor.attachHandler(this);
 		open = true;
 		notify();
 	}
