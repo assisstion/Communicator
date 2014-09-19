@@ -86,7 +86,7 @@ public class ChatPanel extends JPanel implements Runnable{
 		panel_1 = new JPanel();
 		loggerPane.add(panel_1, BorderLayout.NORTH);
 
-		lblNick = new JLabel("Nick:");
+		lblNick = new JLabel("Name:");
 		panel_1.add(lblNick);
 
 		nick = new JTextField();
