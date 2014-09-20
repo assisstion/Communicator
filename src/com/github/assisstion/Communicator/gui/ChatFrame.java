@@ -63,6 +63,7 @@ public class ChatFrame extends JFrame{
 	 * Create the frame.
 	 */
 	public ChatFrame(){
+		setTitle("Communicator");
 		panels = new LinkedList<ChatPanel>();
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -181,9 +182,8 @@ public class ChatFrame extends JFrame{
 					ASocketClient<ASocketHandler> client =
 					CSocketHelper.getClient(host, port, process);
 					BufferedReader in = new BufferedReader(new InputStreamReader(System.in))){
-				System.out.println("Started...");
 				client.open();
-				System.out.println("Client opened!");
+				panel.logger.info("Client Opened!");
 
 				Thread chatThread = new Thread(panel);
 				chatThread.start();
@@ -236,9 +236,8 @@ public class ChatFrame extends JFrame{
 			try(ASocketServer<ASocketHandler> server =
 					CSocketHelper.getServer(port, process);
 					BufferedReader in = new BufferedReader(new InputStreamReader(System.in))){
-				System.out.println("Started...");
 				server.open();
-				System.out.println("Server opened!");
+				panel.logger.info("Server Opened!");
 				Thread chatThread = new Thread(panel);
 				chatThread.start();
 				synchronized(this){
@@ -282,6 +281,7 @@ public class ChatFrame extends JFrame{
 			}
 
 		});
+		frame.setTitle("Chat Window");
 		frame.setContentPane(panel);
 		frame.setVisible(true);
 		return panel;
