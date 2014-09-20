@@ -4,9 +4,12 @@ import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -197,9 +200,15 @@ public class ChatFrame extends JFrame{
 				}
 				System.out.println("Done!");
 			}
-			catch(IOException e1){
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
+			catch(Exception e1){
+				panel.logger.info("Exception caught!");
+				e1.printStackTrace(new PrintWriter(new LogWriter(panel.logger, CustomLevel.NOMESSAGE)));
+				/*
+				Container container = panel.getParent().getParent().getParent();
+				System.out.println(container.getClass());
+				if(container instanceof JFrame){
+					container.setVisible(false);
+				}*/
 			}
 		}
 	}
@@ -245,9 +254,15 @@ public class ChatFrame extends JFrame{
 				}
 				System.out.println("Done!");
 			}
-			catch(IOException e1){
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
+			catch(Exception e1){
+				panel.logger.info("Exception caught!");
+				e1.printStackTrace(new PrintWriter(new LogWriter(panel.logger, CustomLevel.NOMESSAGE)));
+				/*
+				Container container = panel.getParent().getParent().getParent();
+				System.out.println(container.getClass());
+				if(container instanceof JFrame){
+					container.setVisible(false);
+				}*/
 			}
 		}
 	}
@@ -258,8 +273,18 @@ public class ChatFrame extends JFrame{
 		JFrame frame = new JFrame();
 		frame.setBounds(150, 150, 450, 300);
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		frame.addWindowListener(new WindowAdapter(){
+
+			@Override
+			public void windowClosed(WindowEvent e){
+				// TODO Auto-generated method stub
+				panel.terminate();
+			}
+
+		});
 		frame.setContentPane(panel);
 		frame.setVisible(true);
 		return panel;
 	}
+
 }

@@ -115,6 +115,17 @@ public class ChatPanel extends JPanel implements Runnable{
 		dis = new DataInputStream(pis);
 	}
 
+	public void terminate(){
+		try{
+			dis.close();
+			dos.close();
+		}
+		catch(IOException e){
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
 	@Override
 	public void run(){
 		done = false;
@@ -125,8 +136,7 @@ public class ChatPanel extends JPanel implements Runnable{
 					input = dis.readUTF();
 				}
 				catch(IOException e){
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					break;
 				}
 				String nickInput = nick.getText();
 				if(nickInput.length() == 0){
