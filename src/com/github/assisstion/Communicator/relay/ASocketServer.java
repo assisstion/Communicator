@@ -87,7 +87,7 @@ public class ASocketServer<T extends ASocketHandler> implements ISocketServerMac
 			while(open){
 				try{
 					Socket client = server.accept();
-					T handler = generator.generate(client);
+					T handler = generator.apply(client);
 					clients.add(handler);
 					new Thread(handler).start();
 					new Thread(new LSocketDispatcher(handler)).start();

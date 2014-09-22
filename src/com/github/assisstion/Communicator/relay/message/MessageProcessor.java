@@ -69,7 +69,7 @@ public class MessageProcessor extends CSocketProcessorAbstract implements BSocke
 	}
 
 	@Override
-	public MessageProcessor generate(){
+	public MessageProcessor get(){
 		return this;
 	}
 }

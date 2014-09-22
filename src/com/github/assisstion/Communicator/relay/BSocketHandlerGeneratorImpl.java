@@ -12,8 +12,8 @@ ASocketHandlerGenerator<ASocketHandler>{
 	}
 
 	@Override
-	public ASocketHandler generate(Socket socket){
-		return new BSocketHandlerImpl(socket, generator.generate());
+	public ASocketHandler apply(Socket socket){
+		return new BSocketHandlerImpl(socket, generator.get());
 	}
 
 }
