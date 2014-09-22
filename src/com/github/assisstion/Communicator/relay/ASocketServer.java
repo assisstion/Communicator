@@ -153,7 +153,7 @@ public class ASocketServer<T extends ASocketHandler> implements ISocketServerMac
 		@Override
 		public void run(){
 			for(LSocketListener<T> listener : listeners){
-				listener.attach(handler);
+				listener.accept(handler);
 			}
 		}
 
@@ -169,7 +169,7 @@ public class ASocketServer<T extends ASocketHandler> implements ISocketServerMac
 
 			@Override
 			public void run(){
-				listener.attach(handler);
+				listener.accept(handler);
 			}
 		}
 	}

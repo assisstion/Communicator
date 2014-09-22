@@ -1,8 +1,6 @@
 package com.github.assisstion.Communicator.gui;
 
 import java.awt.BorderLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.io.DataInputStream;
@@ -67,18 +65,15 @@ public class ChatPanel extends JPanel implements Runnable{
 		textField.setColumns(25);
 
 		btnGo = new JButton("Go");
-		btnGo.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				try{
-					dos.writeUTF(textField.getText());
-					dos.flush();
-					textField.setText("");
-				}
-				catch(IOException e){
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+		btnGo.addActionListener(event -> {
+			try{
+				dos.writeUTF(textField.getText());
+				dos.flush();
+				textField.setText("");
+			}
+			catch(IOException e){
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
 		});
 		panel.add(btnGo);

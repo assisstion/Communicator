@@ -2,8 +2,6 @@ package com.github.assisstion.Communicator.gui;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.BufferedReader;
@@ -45,16 +43,12 @@ public class ChatFrame extends JFrame{
 	 * Launch the application.
 	 */
 	public static void main(String[] args){
-		EventQueue.invokeLater(new Runnable(){
-			@Override
-			public void run(){
-				try{
-					ChatFrame frame = new ChatFrame();
-					frame.setVisible(true);
-				}
-				catch(Exception e){
-					e.printStackTrace();
-				}
+		EventQueue.invokeLater(() -> {
+			try{
+				new ChatFrame().setVisible(true);
+			}
+			catch(Exception e){
+				e.printStackTrace();
 			}
 		});
 	}
@@ -106,18 +100,16 @@ public class ChatFrame extends JFrame{
 		panel_1.add(panel_3);
 
 		JButton btnStartClient = new JButton("Start Client");
-		btnStartClient.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				MessageProcessor processor = new MessageProcessor();
-				try{
-					startClient(cHost.getText(), Integer.parseInt(cPort.getText()), processor);
-				}
-				catch(NumberFormatException | IOException e1){
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
+		btnStartClient.addActionListener(e -> {
+			MessageProcessor processor = new MessageProcessor();
+			try{
+				startClient(cHost.getText(), Integer.parseInt(cPort.getText()), processor);
 			}
+			catch(NumberFormatException | IOException e1){
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+
 		});
 		panel_3.add(btnStartClient);
 
@@ -140,17 +132,14 @@ public class ChatFrame extends JFrame{
 		panel_2.add(panel_6);
 
 		JButton btnStartServer = new JButton("Start Server");
-		btnStartServer.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				MessageProcessor processor = new MessageProcessor();
-				try{
-					startServer(Integer.parseInt(sPort.getText()), processor);
-				}
-				catch(NumberFormatException | IOException e1){
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
+		btnStartServer.addActionListener(e ->{
+			MessageProcessor processor = new MessageProcessor();
+			try{
+				startServer(Integer.parseInt(sPort.getText()), processor);
+			}
+			catch(NumberFormatException | IOException e1){
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
 			}
 		});
 		panel_6.add(btnStartServer);

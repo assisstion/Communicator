@@ -1,5 +1,8 @@
 package com.github.assisstion.Communicator.relay;
 
-public interface LSocketListener<T extends ASocketHandler>{
-	void attach(T handler);
+import java.util.function.Consumer;
+
+@FunctionalInterface
+public interface LSocketListener<T extends ASocketHandler> extends Consumer<T>{
+	//uses void accept(T handler) from superclass
 }
