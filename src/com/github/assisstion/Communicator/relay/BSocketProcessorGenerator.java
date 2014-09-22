@@ -1,5 +1,8 @@
 package com.github.assisstion.Communicator.relay;
 
-public interface BSocketProcessorGenerator<T extends BSocketProcessor>{
-	T get();
+import java.util.function.Supplier;
+
+@FunctionalInterface
+public interface BSocketProcessorGenerator<T extends BSocketProcessor> extends Supplier<T>{
+	//uses T get() from superclass
 }
