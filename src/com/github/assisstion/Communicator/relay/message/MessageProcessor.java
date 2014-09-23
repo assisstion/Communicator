@@ -1,5 +1,6 @@
 package com.github.assisstion.Communicator.relay.message;
 
+import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -10,10 +11,15 @@ import com.github.assisstion.Communicator.relay.CSocketProcessorAbstract;
 
 public class MessageProcessor extends CSocketProcessorAbstract<String> implements BSocketProcessorGenerator<MessageProcessor>{
 
-	public Logger logger = null;
+	protected Logger logger = null;
+	protected MessageCommandProcessor cmd;
 
 	public MessageProcessor(){
 
+	}
+
+	public MessageProcessor(MessageCommandProcessor mcp){
+		cmd = mcp;
 	}
 
 	@Override
@@ -48,22 +54,35 @@ public class MessageProcessor extends CSocketProcessorAbstract<String> implement
 		logger = log;
 	}
 
-	//Sleeps for 1 second and prints the message
+	@Override
+	public void output(String out, boolean block) throws IOException{
+		MessageCommandProcessor mcp = getCommandProcessor();
+		if(mcp != null){
+			out = mcp.processOut(out);
+			if(mcp.isCommand(out)){
+				out = mcp.runCommand(out, true);
+			}
+		}
+		if(out != null){
+			super.output(out, block);
+		}
+	}
+
 	@Override
 	public void input(String in){
-		try{
-			Thread.sleep(1);
+		MessageCommandProcessor mcp = getCommandProcessor();
+		if(mcp != null){
+			if(mcp.isCommand(in)){
+				in = mcp.runCommand(in, false);
+			}
+			in = mcp.processIn(in);
 		}
-		catch(InterruptedException e){
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		if(logger == null){
-			System.out.println(in);
-		}
-		else{
-			if(logger.isLoggable(Level.INFO)){
+		if(in != null){
+			if(logger != null && logger.isLoggable(Level.INFO)){
 				logger.info(in);
+			}
+			else{
+				System.out.println(in);
 			}
 		}
 	}
@@ -71,5 +90,21 @@ public class MessageProcessor extends CSocketProcessorAbstract<String> implement
 	@Override
 	public MessageProcessor get(){
 		return this;
+	}
+
+	public void setLogger(Logger logger){
+		this.logger = logger;
+	}
+
+	public Logger getLogger(){
+		return logger;
+	}
+
+	public void setCommandProcessor(MessageCommandProcessor mcp){
+		cmd = mcp;
+	}
+
+	public MessageCommandProcessor getCommandProcessor(){
+		return cmd;
 	}
 }
