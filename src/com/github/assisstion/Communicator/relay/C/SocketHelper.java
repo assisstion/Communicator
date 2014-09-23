@@ -9,21 +9,21 @@ import com.github.assisstion.Communicator.relay.B.SocketProcessor;
 import com.github.assisstion.Communicator.relay.B.SocketProcessorGenerator;
 import com.github.assisstion.Communicator.relay.Stream.SocketStreamHandlerGeneratorImpl;
 import com.github.assisstion.Communicator.relay.Stream.SocketStreamHandlerImpl;
-import com.github.assisstion.Communicator.relay.String.BSocketStringHandlerGeneratorImpl;
-import com.github.assisstion.Communicator.relay.String.BSocketStringHandlerImpl;
+import com.github.assisstion.Communicator.relay.String.SocketStringHandlerGeneratorImpl;
+import com.github.assisstion.Communicator.relay.String.SocketStringHandlerImpl;
 
 public class SocketHelper{
 	public static <T extends SocketProcessor<String>> SocketServer<SocketHandler<String>>
 	getStringServer(int port, SocketProcessorGenerator<T> gen)
 			throws IOException{
 		return new SocketServer<SocketHandler<String>>(port,
-				new BSocketStringHandlerGeneratorImpl(gen));
+				new SocketStringHandlerGeneratorImpl(gen));
 	}
 
 	public static <T extends SocketProcessor<String>> SocketClient<SocketHandler<String>>
 	getStringClient(String host, int port, SocketProcessor<String> gen)
 			throws IOException{
-		BSocketStringHandlerImpl handler = new BSocketStringHandlerImpl(gen);
+		SocketStringHandlerImpl handler = new SocketStringHandlerImpl(gen);
 		SocketClient<SocketHandler<String>> client = new SocketClient<SocketHandler<String>>(host, port,
 				handler);
 		handler.openSocket(client.getClientSocket());

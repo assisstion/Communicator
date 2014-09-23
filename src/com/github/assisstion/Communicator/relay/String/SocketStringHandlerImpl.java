@@ -8,18 +8,17 @@ import java.net.Socket;
 
 import com.github.assisstion.Communicator.relay.B.SocketHandlerImplAbstract;
 import com.github.assisstion.Communicator.relay.B.SocketProcessor;
-import com.github.assisstion.Communicator.relay.B.SocketHandlerImplAbstract.Inputtor;
 
-public class BSocketStringHandlerImpl extends SocketHandlerImplAbstract<String>{
+public class SocketStringHandlerImpl extends SocketHandlerImplAbstract<String>{
 
 	protected PrintWriter out;
 	protected BufferedReader in;
 
-	public BSocketStringHandlerImpl(SocketProcessor<String> processor){
+	public SocketStringHandlerImpl(SocketProcessor<String> processor){
 		super(processor);
 	}
 
-	public BSocketStringHandlerImpl(Socket socket, SocketProcessor<String> processor){
+	public SocketStringHandlerImpl(Socket socket, SocketProcessor<String> processor){
 		super(socket, processor);
 	}
 
