@@ -3,7 +3,7 @@ package com.github.assisstion.Communicator.relay;
 import java.io.IOException;
 import java.net.Socket;
 
-public class ASocketClient<T extends ASocketHandler> implements ISocketClientMachine<T>{
+public class ASocketClient<T extends ASocketHandler<?>> implements ISocketClientMachine<T>{
 
 	protected boolean open;
 

@@ -168,7 +168,7 @@ public class ChatFrame extends JFrame{
 		@Override
 		public void run(){
 			try(
-					ASocketClient<ASocketHandler> client =
+					ASocketClient<ASocketHandler<String>> client =
 					CSocketHelper.getClient(host, port, process);
 					BufferedReader in = new BufferedReader(new InputStreamReader(System.in))){
 				client.open();
@@ -222,7 +222,7 @@ public class ChatFrame extends JFrame{
 
 		@Override
 		public void run(){
-			try(ASocketServer<ASocketHandler> server =
+			try(ASocketServer<ASocketHandler<String>> server =
 					CSocketHelper.getServer(port, process);
 					BufferedReader in = new BufferedReader(new InputStreamReader(System.in))){
 				server.open();

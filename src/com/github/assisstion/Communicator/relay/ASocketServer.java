@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
 
-public class ASocketServer<T extends ASocketHandler> implements ISocketServerMachine<T>{
+public class ASocketServer<T extends ASocketHandler<?>> implements ISocketServerMachine<T>{
 
 	protected boolean open;
 
@@ -108,6 +108,7 @@ public class ASocketServer<T extends ASocketHandler> implements ISocketServerMac
 		return server;
 	}
 
+	@Override
 	public ASocketHandlerGenerator<T> getHandlerGenerator(){
 		return generator;
 	}

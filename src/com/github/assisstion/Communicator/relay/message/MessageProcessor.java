@@ -8,7 +8,7 @@ import com.github.assisstion.Communicator.relay.BSocketProcessorGenerator;
 import com.github.assisstion.Communicator.relay.CSocketProcessorAbstract;
 
 
-public class MessageProcessor extends CSocketProcessorAbstract implements BSocketProcessorGenerator<MessageProcessor>{
+public class MessageProcessor extends CSocketProcessorAbstract<String> implements BSocketProcessorGenerator<MessageProcessor>{
 
 	public Logger logger = null;
 
@@ -17,7 +17,7 @@ public class MessageProcessor extends CSocketProcessorAbstract implements BSocke
 	}
 
 	@Override
-	public void attachHandler(ASocketHandler handler){
+	public void attachHandler(ASocketHandler<String> handler){
 		super.attachHandler(handler);
 		String info = "Attached handler: " + handler.getSocket();
 		if(logger == null){
@@ -31,7 +31,7 @@ public class MessageProcessor extends CSocketProcessorAbstract implements BSocke
 	}
 
 	@Override
-	public void removeHandler(ASocketHandler handler){
+	public void removeHandler(ASocketHandler<String> handler){
 		super.removeHandler(handler);
 		String info = "Removed handler: " + handler.getSocket();
 		if(logger == null){

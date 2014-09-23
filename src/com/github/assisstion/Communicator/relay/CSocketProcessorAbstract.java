@@ -5,22 +5,22 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
-public abstract class CSocketProcessorAbstract implements BSocketProcessor{
+public abstract class CSocketProcessorAbstract<T> implements BSocketProcessor<T>{
 
-	protected Set<ASocketHandler> handlers = new HashSet<ASocketHandler>();
+	protected Set<ASocketHandler<T>> handlers = new HashSet<ASocketHandler<T>>();
 
 	@Override
-	public void attachHandler(ASocketHandler handler){
+	public void attachHandler(ASocketHandler<T> handler){
 		handlers.add(handler);
 	}
 
 	@Override
-	public void removeHandler(ASocketHandler handler){
+	public void removeHandler(ASocketHandler<T> handler){
 		handlers.remove(handler);
 	}
 
 	@Override
-	public Set<ASocketHandler> getHandlers(){
+	public Set<ASocketHandler<T>> getHandlers(){
 		return Collections.unmodifiableSet(handlers);
 	}
 
@@ -30,7 +30,7 @@ public abstract class CSocketProcessorAbstract implements BSocketProcessor{
 	}
 
 	@Override
-	public void output(String out, boolean block) throws IOException{
+	public void output(T out, boolean block) throws IOException{
 		if(block){
 			new Outputter(null, out).output();
 		}
@@ -40,7 +40,7 @@ public abstract class CSocketProcessorAbstract implements BSocketProcessor{
 	}
 
 	@Override
-	public void outputToHandler(ASocketHandler handler, String out, boolean block) throws IOException{
+	public void outputToHandler(ASocketHandler<T> handler, T out, boolean block) throws IOException{
 		if(block){
 			new Outputter(handler, out).output();
 		}
@@ -51,10 +51,10 @@ public abstract class CSocketProcessorAbstract implements BSocketProcessor{
 
 	public class Outputter implements Runnable{
 
-		protected String text = "";
-		protected ASocketHandler out = null;
+		protected T text = null;
+		protected ASocketHandler<T> out = null;
 
-		public Outputter(ASocketHandler handler, String string){
+		public Outputter(ASocketHandler<T> handler, T string){
 			out = handler;
 			text = string;
 		}
@@ -73,7 +73,7 @@ public abstract class CSocketProcessorAbstract implements BSocketProcessor{
 		public void output() throws IOException{
 			IOException tempException = null;
 			if(out == null){
-				for(ASocketHandler handler : handlers){
+				for(ASocketHandler<T> handler : handlers){
 					try{
 						handler.push(text);
 					}
@@ -94,5 +94,11 @@ public abstract class CSocketProcessorAbstract implements BSocketProcessor{
 				throw new IOException(tempException);
 			}
 		}
+	}
+
+	@Override
+	public boolean isInputBlockingEnabled(){
+		//Does not block on input
+		return false;
 	}
 }

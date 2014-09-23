@@ -6,10 +6,10 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 
-public class BSocketHandlerImpl implements ASocketHandler{
+public class BSocketHandlerImpl implements ASocketHandler<String>{
 
 	protected Socket socket;
-	protected BSocketProcessor processor;
+	protected BSocketProcessor<String> processor;
 	protected boolean init = false;
 	protected boolean closed = false;
 	protected PrintWriter out;
@@ -17,11 +17,11 @@ public class BSocketHandlerImpl implements ASocketHandler{
 	protected boolean open = false;
 	protected boolean started = false;
 
-	public BSocketHandlerImpl(BSocketProcessor processor){
+	public BSocketHandlerImpl(BSocketProcessor<String> processor){
 		this.processor = processor;
 	}
 
-	public BSocketHandlerImpl(Socket socket, BSocketProcessor processor){
+	public BSocketHandlerImpl(Socket socket, BSocketProcessor<String> processor){
 		this(processor);
 		openSocket(socket);
 	}
@@ -64,7 +64,12 @@ public class BSocketHandlerImpl implements ASocketHandler{
 			while (!closed && (inputLine = in.readLine()) != null) {
 				if(!closed){
 					try{
-						new Thread(new Inputtor(inputLine)).start();
+						if(!processor.isInputBlockingEnabled()){
+							new Thread(new Inputtor(inputLine)).start();
+						}
+						else{
+							new Inputtor(inputLine).run();
+						}
 					}
 					catch(Exception e){
 						if(!closed){

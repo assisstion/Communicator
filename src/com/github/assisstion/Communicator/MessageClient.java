@@ -12,7 +12,7 @@ import com.github.assisstion.Communicator.relay.message.MessageProcessor;
 public class MessageClient{
 	public static void start(String host, int port, MessageProcessor process) throws IOException{
 		try(
-				ASocketClient<ASocketHandler> client =
+				ASocketClient<ASocketHandler<String>> client =
 				CSocketHelper.getClient(host, port, process);
 				BufferedReader in = new BufferedReader(new InputStreamReader(System.in))){
 			System.out.println("Started...");
