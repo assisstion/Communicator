@@ -7,18 +7,18 @@ import com.github.assisstion.Communicator.relay.A.SocketHandlerGenerator;
 import com.github.assisstion.Communicator.relay.B.SocketProcessor;
 import com.github.assisstion.Communicator.relay.B.SocketProcessorGenerator;
 
-public class SocketStreamHandlerGeneratorImpl implements
+public class SocketStreamHandlerGenerator implements
 SocketHandlerGenerator<SocketHandler<byte[]>>{
 
 	protected SocketProcessorGenerator<? extends SocketProcessor<byte[]>> generator;
 
-	public SocketStreamHandlerGeneratorImpl(SocketProcessorGenerator<? extends SocketProcessor<byte[]>> gen){
+	public SocketStreamHandlerGenerator(SocketProcessorGenerator<? extends SocketProcessor<byte[]>> gen){
 		generator = gen;
 	}
 
 	@Override
 	public SocketHandler<byte[]> apply(Socket socket){
-		return new SocketStreamHandlerImpl(socket, generator.get());
+		return new SocketStreamHandler(socket, generator.get());
 	}
 
 }

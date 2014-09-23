@@ -6,19 +6,19 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 
-import com.github.assisstion.Communicator.relay.B.SocketHandlerImplAbstract;
+import com.github.assisstion.Communicator.relay.B.SocketHandlerAbstract;
 import com.github.assisstion.Communicator.relay.B.SocketProcessor;
 
-public class SocketStringHandlerImpl extends SocketHandlerImplAbstract<String>{
+public class SocketStringHandler extends SocketHandlerAbstract<String>{
 
 	protected PrintWriter out;
 	protected BufferedReader in;
 
-	public SocketStringHandlerImpl(SocketProcessor<String> processor){
+	public SocketStringHandler(SocketProcessor<String> processor){
 		super(processor);
 	}
 
-	public SocketStringHandlerImpl(Socket socket, SocketProcessor<String> processor){
+	public SocketStringHandler(Socket socket, SocketProcessor<String> processor){
 		super(socket, processor);
 	}
 

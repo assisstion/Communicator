@@ -5,7 +5,7 @@ import java.net.Socket;
 
 import com.github.assisstion.Communicator.relay.A.SocketHandler;
 
-public abstract class SocketHandlerImplAbstract<T> implements SocketHandler<T>{
+public abstract class SocketHandlerAbstract<T> implements SocketHandler<T>{
 
 	protected Socket socket;
 	protected SocketProcessor<T> processor;
@@ -14,11 +14,11 @@ public abstract class SocketHandlerImplAbstract<T> implements SocketHandler<T>{
 	protected boolean open = false;
 	protected boolean started = false;
 
-	public SocketHandlerImplAbstract(SocketProcessor<T> processor){
+	public SocketHandlerAbstract(SocketProcessor<T> processor){
 		this.processor = processor;
 	}
 
-	public SocketHandlerImplAbstract(Socket socket, SocketProcessor<T> processor){
+	public SocketHandlerAbstract(Socket socket, SocketProcessor<T> processor){
 		this(processor);
 		openSocket(socket);
 	}
