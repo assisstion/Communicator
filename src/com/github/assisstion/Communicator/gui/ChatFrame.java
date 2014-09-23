@@ -23,7 +23,7 @@ import javax.swing.border.TitledBorder;
 import com.github.assisstion.Communicator.relay.ASocketClient;
 import com.github.assisstion.Communicator.relay.ASocketHandler;
 import com.github.assisstion.Communicator.relay.ASocketServer;
-import com.github.assisstion.Communicator.relay.CSocketStringHelper;
+import com.github.assisstion.Communicator.relay.CSocketHelper;
 import com.github.assisstion.Communicator.relay.message.MessageProcessor;
 
 public class ChatFrame extends JFrame{
@@ -169,7 +169,7 @@ public class ChatFrame extends JFrame{
 		public void run(){
 			try(
 					ASocketClient<ASocketHandler<String>> client =
-					CSocketStringHelper.getClient(host, port, process);
+					CSocketHelper.getStringClient(host, port, process);
 					BufferedReader in = new BufferedReader(new InputStreamReader(System.in))){
 				client.open();
 				panel.logger.info("Client Opened!");
@@ -223,7 +223,7 @@ public class ChatFrame extends JFrame{
 		@Override
 		public void run(){
 			try(ASocketServer<ASocketHandler<String>> server =
-					CSocketStringHelper.getServer(port, process);
+					CSocketHelper.getStringServer(port, process);
 					BufferedReader in = new BufferedReader(new InputStreamReader(System.in))){
 				server.open();
 				panel.logger.info("Server Opened!");

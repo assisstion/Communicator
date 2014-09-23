@@ -6,14 +6,14 @@ import java.io.InputStreamReader;
 
 import com.github.assisstion.Communicator.relay.ASocketClient;
 import com.github.assisstion.Communicator.relay.ASocketHandler;
-import com.github.assisstion.Communicator.relay.CSocketStringHelper;
+import com.github.assisstion.Communicator.relay.CSocketHelper;
 import com.github.assisstion.Communicator.relay.message.MessageProcessor;
 
 public class MessageClient{
 	public static void start(String host, int port, MessageProcessor process) throws IOException{
 		try(
 				ASocketClient<ASocketHandler<String>> client =
-				CSocketStringHelper.getClient(host, port, process);
+				CSocketHelper.getStringClient(host, port, process);
 				BufferedReader in = new BufferedReader(new InputStreamReader(System.in))){
 			System.out.println("Started...");
 			client.open();

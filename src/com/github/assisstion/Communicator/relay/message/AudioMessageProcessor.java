@@ -8,7 +8,6 @@ import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.DataLine;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.SourceDataLine;
-import javax.sound.sampled.TargetDataLine;
 
 import com.github.assisstion.Communicator.relay.BSocketProcessorGenerator;
 import com.github.assisstion.Communicator.relay.CSocketProcessorAbstract;
@@ -21,25 +20,6 @@ public class AudioMessageProcessor extends CSocketProcessorAbstract<byte[]> impl
 	protected AudioFormat format;
 	protected SourceDataLine line;
 	protected boolean enableWriting;
-
-	public static void main(String[] args){
-		try{
-			startWrite();
-		}
-		catch(Exception e){
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-
-	public static void startWrite() throws IOException, LineUnavailableException{
-		AudioMessageProcessor amp = new AudioMessageProcessor();
-		amp.setEnableWriting(true);
-		DataLine.Info info = new DataLine.Info(
-				TargetDataLine.class, getFormat());
-		TargetDataLine line = (TargetDataLine) AudioSystem.getLine(info);
-		amp.write(new AudioInputStream(line), false);
-	}
 
 	public AudioMessageProcessor() throws LineUnavailableException{
 		format = getFormat();
@@ -81,7 +61,7 @@ public class AudioMessageProcessor extends CSocketProcessorAbstract<byte[]> impl
 		return this;
 	}
 
-	private static AudioFormat getFormat(){
+	public static AudioFormat getFormat(){
 		float sampleRate = 44100;
 		int sampleSizeInBits = 16;
 		int channels = 2;
