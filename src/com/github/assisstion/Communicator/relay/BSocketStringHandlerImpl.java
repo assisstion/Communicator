@@ -6,16 +6,16 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 
-public class BSocketHandlerImpl extends BSocketHandlerImplAbstract<String>{
+public class BSocketStringHandlerImpl extends BSocketHandlerImplAbstract<String>{
 
 	protected PrintWriter out;
 	protected BufferedReader in;
 
-	public BSocketHandlerImpl(BSocketProcessor<String> processor){
+	public BSocketStringHandlerImpl(BSocketProcessor<String> processor){
 		super(processor);
 	}
 
-	public BSocketHandlerImpl(Socket socket, BSocketProcessor<String> processor){
+	public BSocketStringHandlerImpl(Socket socket, BSocketProcessor<String> processor){
 		super(socket, processor);
 	}
 
