@@ -1,10 +1,14 @@
-package com.github.assisstion.Communicator.relay;
+package com.github.assisstion.Communicator.relay.String;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+
+import com.github.assisstion.Communicator.relay.B.BSocketHandlerImplAbstract;
+import com.github.assisstion.Communicator.relay.B.BSocketProcessor;
+import com.github.assisstion.Communicator.relay.B.BSocketHandlerImplAbstract.Inputtor;
 
 public class BSocketStringHandlerImpl extends BSocketHandlerImplAbstract<String>{
 

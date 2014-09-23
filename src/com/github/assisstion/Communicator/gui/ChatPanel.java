@@ -17,7 +17,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import com.github.assisstion.Communicator.relay.message.MessageProcessor;
+import com.github.assisstion.Communicator.message.MessageProcessor;
 
 public class ChatPanel extends JPanel implements Runnable{
 

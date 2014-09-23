@@ -1,7 +1,9 @@
-package com.github.assisstion.Communicator.relay;
+package com.github.assisstion.Communicator.relay.B;
 
 import java.io.IOException;
 import java.util.Set;
+
+import com.github.assisstion.Communicator.relay.A.ASocketHandler;
 
 public interface BSocketProcessor<T>{
 	void input(T in);

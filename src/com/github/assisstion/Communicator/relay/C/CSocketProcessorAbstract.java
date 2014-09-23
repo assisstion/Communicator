@@ -1,9 +1,12 @@
-package com.github.assisstion.Communicator.relay;
+package com.github.assisstion.Communicator.relay.C;
 
 import java.io.IOException;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
+
+import com.github.assisstion.Communicator.relay.A.ASocketHandler;
+import com.github.assisstion.Communicator.relay.B.BSocketProcessor;
 
 public abstract class CSocketProcessorAbstract<T> implements BSocketProcessor<T>{
 

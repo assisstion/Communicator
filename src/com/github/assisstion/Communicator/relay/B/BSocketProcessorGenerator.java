@@ -1,4 +1,4 @@
-package com.github.assisstion.Communicator.relay;
+package com.github.assisstion.Communicator.relay.B;
 
 import java.util.function.Supplier;
 

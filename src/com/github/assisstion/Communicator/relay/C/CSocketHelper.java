@@ -1,6 +1,16 @@
-package com.github.assisstion.Communicator.relay;
+package com.github.assisstion.Communicator.relay.C;
 
 import java.io.IOException;
+
+import com.github.assisstion.Communicator.relay.A.ASocketClient;
+import com.github.assisstion.Communicator.relay.A.ASocketHandler;
+import com.github.assisstion.Communicator.relay.A.ASocketServer;
+import com.github.assisstion.Communicator.relay.B.BSocketProcessor;
+import com.github.assisstion.Communicator.relay.B.BSocketProcessorGenerator;
+import com.github.assisstion.Communicator.relay.Stream.SSocketStreamHandlerGeneratorImpl;
+import com.github.assisstion.Communicator.relay.Stream.SSocketStreamHandlerImpl;
+import com.github.assisstion.Communicator.relay.String.BSocketStringHandlerGeneratorImpl;
+import com.github.assisstion.Communicator.relay.String.BSocketStringHandlerImpl;
 
 public class CSocketHelper{
 	public static <T extends BSocketProcessor<String>> ASocketServer<ASocketHandler<String>>

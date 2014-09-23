@@ -1,6 +1,8 @@
-package com.github.assisstion.Communicator.relay;
+package com.github.assisstion.Communicator.relay.L;
 
 import java.util.Set;
+
+import com.github.assisstion.Communicator.relay.A.ASocketHandler;
 
 public interface LSocketListenerHandler<T extends ASocketHandler<?>>{
 	Set<LSocketListener<T>> getListenerSet();

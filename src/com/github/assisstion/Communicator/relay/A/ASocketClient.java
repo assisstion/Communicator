@@ -1,7 +1,9 @@
-package com.github.assisstion.Communicator.relay;
+package com.github.assisstion.Communicator.relay.A;
 
 import java.io.IOException;
 import java.net.Socket;
+
+import com.github.assisstion.Communicator.relay.ISocketClientMachine;
 
 public class ASocketClient<T extends ASocketHandler<?>> implements ISocketClientMachine<T>{
 

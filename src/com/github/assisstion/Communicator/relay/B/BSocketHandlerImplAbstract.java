@@ -1,7 +1,9 @@
-package com.github.assisstion.Communicator.relay;
+package com.github.assisstion.Communicator.relay.B;
 
 import java.io.IOException;
 import java.net.Socket;
+
+import com.github.assisstion.Communicator.relay.A.ASocketHandler;
 
 public abstract class BSocketHandlerImplAbstract<T> implements ASocketHandler<T>{
 

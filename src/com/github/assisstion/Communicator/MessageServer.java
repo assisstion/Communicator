@@ -4,10 +4,10 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-import com.github.assisstion.Communicator.relay.ASocketHandler;
-import com.github.assisstion.Communicator.relay.ASocketServer;
-import com.github.assisstion.Communicator.relay.CSocketHelper;
-import com.github.assisstion.Communicator.relay.message.MessageProcessor;
+import com.github.assisstion.Communicator.message.MessageProcessor;
+import com.github.assisstion.Communicator.relay.A.ASocketHandler;
+import com.github.assisstion.Communicator.relay.A.ASocketServer;
+import com.github.assisstion.Communicator.relay.C.CSocketHelper;
 
 public class MessageServer{
 	public static void start(int port, MessageProcessor process) throws IOException{

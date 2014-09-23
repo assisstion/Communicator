@@ -1,4 +1,4 @@
-package com.github.assisstion.Communicator.relay.message;
+package com.github.assisstion.Communicator.message;
 
 import java.io.IOException;
 
@@ -9,8 +9,8 @@ import javax.sound.sampled.DataLine;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.SourceDataLine;
 
-import com.github.assisstion.Communicator.relay.BSocketProcessorGenerator;
-import com.github.assisstion.Communicator.relay.CSocketProcessorAbstract;
+import com.github.assisstion.Communicator.relay.B.BSocketProcessorGenerator;
+import com.github.assisstion.Communicator.relay.C.CSocketProcessorAbstract;
 
 
 public class AudioMessageProcessor extends CSocketProcessorAbstract<byte[]> implements BSocketProcessorGenerator<AudioMessageProcessor>{

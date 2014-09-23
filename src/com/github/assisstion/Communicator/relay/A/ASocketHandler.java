@@ -1,4 +1,4 @@
-package com.github.assisstion.Communicator.relay;
+package com.github.assisstion.Communicator.relay.A;
 
 import java.io.Closeable;
 import java.io.IOException;

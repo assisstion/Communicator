@@ -1,4 +1,4 @@
-package com.github.assisstion.Communicator.relay.message;
+package com.github.assisstion.Communicator.message;
 
 public interface MessageCommandProcessor{
 

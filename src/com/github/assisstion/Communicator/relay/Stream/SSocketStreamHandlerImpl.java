@@ -1,9 +1,13 @@
-package com.github.assisstion.Communicator.relay;
+package com.github.assisstion.Communicator.relay.Stream;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.net.Socket;
+
+import com.github.assisstion.Communicator.relay.B.BSocketHandlerImplAbstract;
+import com.github.assisstion.Communicator.relay.B.BSocketProcessor;
+import com.github.assisstion.Communicator.relay.B.BSocketHandlerImplAbstract.Inputtor;
 
 public class SSocketStreamHandlerImpl extends BSocketHandlerImplAbstract<byte[]> {
 	public static final int DEFAULT_BUFFER_SIZE = 1024;

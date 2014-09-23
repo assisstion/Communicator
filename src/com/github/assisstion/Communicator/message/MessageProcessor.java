@@ -1,12 +1,12 @@
-package com.github.assisstion.Communicator.relay.message;
+package com.github.assisstion.Communicator.message;
 
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import com.github.assisstion.Communicator.relay.ASocketHandler;
-import com.github.assisstion.Communicator.relay.BSocketProcessorGenerator;
-import com.github.assisstion.Communicator.relay.CSocketProcessorAbstract;
+import com.github.assisstion.Communicator.relay.A.ASocketHandler;
+import com.github.assisstion.Communicator.relay.B.BSocketProcessorGenerator;
+import com.github.assisstion.Communicator.relay.C.CSocketProcessorAbstract;
 
 
 public class MessageProcessor extends CSocketProcessorAbstract<String> implements BSocketProcessorGenerator<MessageProcessor>{

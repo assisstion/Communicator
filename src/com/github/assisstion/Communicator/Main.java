@@ -2,7 +2,7 @@ package com.github.assisstion.Communicator;
 
 import java.io.IOException;
 
-import com.github.assisstion.Communicator.relay.message.MessageProcessor;
+import com.github.assisstion.Communicator.message.MessageProcessor;
 
 public class Main{
 	public static void main(String[] args){

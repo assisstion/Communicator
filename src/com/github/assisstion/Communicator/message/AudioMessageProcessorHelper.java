@@ -1,4 +1,4 @@
-package com.github.assisstion.Communicator.relay.message;
+package com.github.assisstion.Communicator.message;
 
 import java.io.IOException;
 
@@ -9,10 +9,10 @@ import javax.sound.sampled.DataLine;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.TargetDataLine;
 
-import com.github.assisstion.Communicator.relay.ASocketClient;
-import com.github.assisstion.Communicator.relay.ASocketHandler;
-import com.github.assisstion.Communicator.relay.ASocketServer;
-import com.github.assisstion.Communicator.relay.CSocketHelper;
+import com.github.assisstion.Communicator.relay.A.ASocketClient;
+import com.github.assisstion.Communicator.relay.A.ASocketHandler;
+import com.github.assisstion.Communicator.relay.A.ASocketServer;
+import com.github.assisstion.Communicator.relay.C.CSocketHelper;
 
 public final class AudioMessageProcessorHelper{
 
