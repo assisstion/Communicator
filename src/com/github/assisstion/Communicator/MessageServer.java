@@ -11,7 +11,7 @@ import com.github.assisstion.Communicator.relay.message.MessageProcessor;
 
 public class MessageServer{
 	public static void start(int port, MessageProcessor process) throws IOException{
-		try(ASocketServer<ASocketHandler> server =
+		try(ASocketServer<ASocketHandler<String>> server =
 				CSocketHelper.getServer(port, process);
 				BufferedReader in = new BufferedReader(new InputStreamReader(System.in))){
 			System.out.println("Started...");

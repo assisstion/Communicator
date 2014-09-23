@@ -1,27 +1,22 @@
 package com.github.assisstion.Communicator.relay;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
 import java.net.Socket;
 
-public class BSocketHandlerImpl implements ASocketHandler<String>{
+public abstract class BSocketHandlerImplAbstract<T> implements ASocketHandler<T>{
 
 	protected Socket socket;
-	protected BSocketProcessor<String> processor;
+	protected BSocketProcessor<T> processor;
 	protected boolean init = false;
 	protected boolean closed = false;
-	protected PrintWriter out;
-	protected BufferedReader in;
 	protected boolean open = false;
 	protected boolean started = false;
 
-	public BSocketHandlerImpl(BSocketProcessor<String> processor){
+	public BSocketHandlerImplAbstract(BSocketProcessor<T> processor){
 		this.processor = processor;
 	}
 
-	public BSocketHandlerImpl(Socket socket, BSocketProcessor<String> processor){
+	public BSocketHandlerImplAbstract(Socket socket, BSocketProcessor<T> processor){
 		this(processor);
 		openSocket(socket);
 	}
@@ -51,33 +46,12 @@ public class BSocketHandlerImpl implements ASocketHandler<String>{
 					}
 				}
 			}
-			out = new PrintWriter(socket.getOutputStream(), true);
-			in = new BufferedReader(
-					new InputStreamReader(socket.getInputStream()));
-
+			initialize();
 			synchronized(this){
 				init = true;
 				notifyAll();
 			}
-			String inputLine;
-
-			while (!closed && (inputLine = in.readLine()) != null) {
-				if(!closed){
-					try{
-						if(!processor.isInputBlockingEnabled()){
-							new Thread(new Inputtor(inputLine)).start();
-						}
-						else{
-							new Inputtor(inputLine).run();
-						}
-					}
-					catch(Exception e){
-						if(!closed){
-							e.printStackTrace();
-						}
-					}
-				}
-			}
+			readFromIn();
 		}
 		catch(IOException e){
 			if(!closed){
@@ -98,8 +72,14 @@ public class BSocketHandlerImpl implements ASocketHandler<String>{
 		}
 	}
 
+	protected abstract void initialize() throws IOException;
+
+	protected abstract void readFromIn() throws IOException;
+
+	protected abstract void writeToOut(T obj) throws IOException;
+
 	@Override
-	public void push(String out) throws IOException{
+	public void push(T out) throws IOException{
 		while(!init){
 			synchronized(this){
 				try{
@@ -112,7 +92,7 @@ public class BSocketHandlerImpl implements ASocketHandler<String>{
 			}
 		}
 		if(!closed){
-			this.out.println(out);
+			writeToOut(out);
 		}
 		else{
 			throw new IOException("Socket not open");
@@ -131,9 +111,9 @@ public class BSocketHandlerImpl implements ASocketHandler<String>{
 
 	public class Inputtor implements Runnable{
 
-		protected String in;
+		protected T in;
 
-		public Inputtor(String inputLine){
+		public Inputtor(T inputLine){
 			in = inputLine;
 		}
 

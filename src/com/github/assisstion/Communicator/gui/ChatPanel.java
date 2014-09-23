@@ -50,7 +50,7 @@ public class ChatPanel extends JPanel implements Runnable{
 
 		mp = processor;
 
-		logger = Logger.getLogger("main");
+		logger = Logger.getLogger("chat_" + id);
 		setLayout(new BorderLayout(0, 0));
 		loggerPane = new LoggerPane(logger, false);
 		add(loggerPane);
