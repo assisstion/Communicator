@@ -2,6 +2,7 @@ package com.github.assisstion.Communicator.relay.message;
 
 import java.io.IOException;
 
+import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.DataLine;
@@ -21,7 +22,24 @@ public final class AudioMessageProcessorHelper{
 
 	public static void main(String[] args){
 		try{
-			startServer(new AudioMessageProcessor(), 50010);
+			new Thread(() ->{
+				try{
+					startServer(new AudioMessageProcessor(), 50010);
+				}
+				catch(Exception e){
+					e.printStackTrace();
+				}
+			}).start();
+
+			new Thread(() ->{
+				try{
+					startClient(new AudioMessageProcessor(), "localhost", 50010);
+				}
+				catch(Exception e){
+					e.printStackTrace();
+				}
+			}).start();
+
 		}
 		catch(Exception e){
 			// TODO Auto-generated catch block
@@ -43,9 +61,12 @@ public final class AudioMessageProcessorHelper{
 
 	public static void startWrite(AudioMessageProcessor p) throws IOException, LineUnavailableException{
 		p.setEnableWriting(true);
+		AudioFormat format = AudioMessageProcessor.getFormat();
 		DataLine.Info info = new DataLine.Info(
-				TargetDataLine.class, AudioMessageProcessor.getFormat());
+				TargetDataLine.class, format);
 		TargetDataLine line = (TargetDataLine) AudioSystem.getLine(info);
+		line.open(format);
+		line.start();
 		p.write(new AudioInputStream(line), false);
 	}
 }

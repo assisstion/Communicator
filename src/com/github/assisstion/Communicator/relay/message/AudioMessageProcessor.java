@@ -26,6 +26,8 @@ public class AudioMessageProcessor extends CSocketProcessorAbstract<byte[]> impl
 		DataLine.Info info = new DataLine.Info(
 				SourceDataLine.class, format);
 		line = (SourceDataLine) AudioSystem.getLine(info);
+		line.open(format);
+		line.start();
 	}
 
 	public void setEnableWriting(boolean en){
