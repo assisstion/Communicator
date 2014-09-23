@@ -5,25 +5,25 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
-import com.github.assisstion.Communicator.relay.A.ASocketHandler;
-import com.github.assisstion.Communicator.relay.B.BSocketProcessor;
+import com.github.assisstion.Communicator.relay.A.SocketHandler;
+import com.github.assisstion.Communicator.relay.B.SocketProcessor;
 
-public abstract class CSocketProcessorAbstract<T> implements BSocketProcessor<T>{
+public abstract class SocketProcessorAbstract<T> implements SocketProcessor<T>{
 
-	protected Set<ASocketHandler<T>> handlers = new HashSet<ASocketHandler<T>>();
+	protected Set<SocketHandler<T>> handlers = new HashSet<SocketHandler<T>>();
 
 	@Override
-	public void attachHandler(ASocketHandler<T> handler){
+	public void attachHandler(SocketHandler<T> handler){
 		handlers.add(handler);
 	}
 
 	@Override
-	public void removeHandler(ASocketHandler<T> handler){
+	public void removeHandler(SocketHandler<T> handler){
 		handlers.remove(handler);
 	}
 
 	@Override
-	public Set<ASocketHandler<T>> getHandlers(){
+	public Set<SocketHandler<T>> getHandlers(){
 		return Collections.unmodifiableSet(handlers);
 	}
 
@@ -43,7 +43,7 @@ public abstract class CSocketProcessorAbstract<T> implements BSocketProcessor<T>
 	}
 
 	@Override
-	public void outputToHandler(ASocketHandler<T> handler, T out, boolean block) throws IOException{
+	public void outputToHandler(SocketHandler<T> handler, T out, boolean block) throws IOException{
 		if(block){
 			new Outputter(handler, out).output();
 		}
@@ -55,9 +55,9 @@ public abstract class CSocketProcessorAbstract<T> implements BSocketProcessor<T>
 	public class Outputter implements Runnable{
 
 		protected T text = null;
-		protected ASocketHandler<T> out = null;
+		protected SocketHandler<T> out = null;
 
-		public Outputter(ASocketHandler<T> handler, T string){
+		public Outputter(SocketHandler<T> handler, T string){
 			out = handler;
 			text = string;
 		}
@@ -76,7 +76,7 @@ public abstract class CSocketProcessorAbstract<T> implements BSocketProcessor<T>
 		public void output() throws IOException{
 			IOException tempException = null;
 			if(out == null){
-				for(ASocketHandler<T> handler : handlers){
+				for(SocketHandler<T> handler : handlers){
 					try{
 						handler.push(text);
 					}

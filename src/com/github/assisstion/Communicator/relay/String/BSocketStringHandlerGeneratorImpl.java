@@ -2,22 +2,22 @@ package com.github.assisstion.Communicator.relay.String;
 
 import java.net.Socket;
 
-import com.github.assisstion.Communicator.relay.A.ASocketHandler;
-import com.github.assisstion.Communicator.relay.A.ASocketHandlerGenerator;
-import com.github.assisstion.Communicator.relay.B.BSocketProcessor;
-import com.github.assisstion.Communicator.relay.B.BSocketProcessorGenerator;
+import com.github.assisstion.Communicator.relay.A.SocketHandler;
+import com.github.assisstion.Communicator.relay.A.SocketHandlerGenerator;
+import com.github.assisstion.Communicator.relay.B.SocketProcessor;
+import com.github.assisstion.Communicator.relay.B.SocketProcessorGenerator;
 
 public class BSocketStringHandlerGeneratorImpl implements
-ASocketHandlerGenerator<ASocketHandler<String>>{
+SocketHandlerGenerator<SocketHandler<String>>{
 
-	protected BSocketProcessorGenerator<? extends BSocketProcessor<String>> generator;
+	protected SocketProcessorGenerator<? extends SocketProcessor<String>> generator;
 
-	public BSocketStringHandlerGeneratorImpl(BSocketProcessorGenerator<? extends BSocketProcessor<String>> gen){
+	public BSocketStringHandlerGeneratorImpl(SocketProcessorGenerator<? extends SocketProcessor<String>> gen){
 		generator = gen;
 	}
 
 	@Override
-	public ASocketHandler<String> apply(Socket socket){
+	public SocketHandler<String> apply(Socket socket){
 		return new BSocketStringHandlerImpl(socket, generator.get());
 	}
 

@@ -9,33 +9,33 @@ import java.util.List;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
 
-import com.github.assisstion.Communicator.relay.ISocketServerMachine;
-import com.github.assisstion.Communicator.relay.L.LSocketListener;
+import com.github.assisstion.Communicator.relay.SocketServerMachine;
+import com.github.assisstion.Communicator.relay.L.SocketListener;
 
-public class ASocketServer<T extends ASocketHandler<?>> implements ISocketServerMachine<T>{
+public class SocketServer<T extends SocketHandler<?>> implements SocketServerMachine<T>{
 
 	protected boolean open;
 
 	protected ServerSocket server;
-	protected Set<LSocketListener<T>> listeners;
+	protected Set<SocketListener<T>> listeners;
 	protected List<T> clients;
-	protected ASocketHandlerGenerator<T> generator;
+	protected SocketHandlerGenerator<T> generator;
 	protected boolean started = false;
 	protected boolean closed = false;
 
-	protected ASocketServer(){
+	protected SocketServer(){
 		clients = new LinkedList<T>();
-		listeners = new CopyOnWriteArraySet<LSocketListener<T>>();
+		listeners = new CopyOnWriteArraySet<SocketListener<T>>();
 	}
 
-	public ASocketServer(ServerSocket socket, ASocketHandlerGenerator<T> gen) throws IOException{
+	public SocketServer(ServerSocket socket, SocketHandlerGenerator<T> gen) throws IOException{
 		this();
 		generator = gen;
 		server = socket;
 		new Thread(this).start();
 	}
 
-	public ASocketServer(int port, ASocketHandlerGenerator<T> gen) throws IOException{
+	public SocketServer(int port, SocketHandlerGenerator<T> gen) throws IOException{
 		this(new ServerSocket(port), gen);
 	}
 
@@ -112,7 +112,7 @@ public class ASocketServer<T extends ASocketHandler<?>> implements ISocketServer
 	}
 
 	@Override
-	public ASocketHandlerGenerator<T> getHandlerGenerator(){
+	public SocketHandlerGenerator<T> getHandlerGenerator(){
 		return generator;
 	}
 
@@ -122,27 +122,27 @@ public class ASocketServer<T extends ASocketHandler<?>> implements ISocketServer
 	}
 
 	@Override
-	public Set<LSocketListener<T>> getListenerSet(){
+	public Set<SocketListener<T>> getListenerSet(){
 		return Collections.unmodifiableSet(listeners);
 	}
 
 	@Override
-	public void addListener(LSocketListener<T> listener){
+	public void addListener(SocketListener<T> listener){
 		listeners.add(listener);
 	}
 
 	@Override
-	public void addListeners(Set<LSocketListener<T>> listeners){
+	public void addListeners(Set<SocketListener<T>> listeners){
 		listeners.addAll(listeners);
 	}
 
 	@Override
-	public void removeListener(LSocketListener<T> listener){
+	public void removeListener(SocketListener<T> listener){
 		listeners.remove(listener);
 	}
 
 	@Override
-	public void removeListeners(Set<LSocketListener<T>> listeners){
+	public void removeListeners(Set<SocketListener<T>> listeners){
 		listeners.removeAll(listeners);
 	}
 
@@ -156,17 +156,17 @@ public class ASocketServer<T extends ASocketHandler<?>> implements ISocketServer
 
 		@Override
 		public void run(){
-			for(LSocketListener<T> listener : listeners){
+			for(SocketListener<T> listener : listeners){
 				listener.accept(handler);
 			}
 		}
 
 		protected class LSocketAttachRunner implements Runnable{
 
-			protected LSocketListener<T> listener;
+			protected SocketListener<T> listener;
 			protected T handler;
 
-			public LSocketAttachRunner(LSocketListener<T> listener, T handler){
+			public LSocketAttachRunner(SocketListener<T> listener, T handler){
 				this.listener = listener;
 				this.handler = handler;
 			}

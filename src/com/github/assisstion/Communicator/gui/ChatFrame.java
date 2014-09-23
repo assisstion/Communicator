@@ -21,10 +21,10 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 
 import com.github.assisstion.Communicator.message.MessageProcessor;
-import com.github.assisstion.Communicator.relay.A.ASocketClient;
-import com.github.assisstion.Communicator.relay.A.ASocketHandler;
-import com.github.assisstion.Communicator.relay.A.ASocketServer;
-import com.github.assisstion.Communicator.relay.C.CSocketHelper;
+import com.github.assisstion.Communicator.relay.A.SocketClient;
+import com.github.assisstion.Communicator.relay.A.SocketHandler;
+import com.github.assisstion.Communicator.relay.A.SocketServer;
+import com.github.assisstion.Communicator.relay.C.SocketHelper;
 
 public class ChatFrame extends JFrame{
 
@@ -168,8 +168,8 @@ public class ChatFrame extends JFrame{
 		@Override
 		public void run(){
 			try(
-					ASocketClient<ASocketHandler<String>> client =
-					CSocketHelper.getStringClient(host, port, process);
+					SocketClient<SocketHandler<String>> client =
+					SocketHelper.getStringClient(host, port, process);
 					BufferedReader in = new BufferedReader(new InputStreamReader(System.in))){
 				client.open();
 				panel.logger.info("Client Opened!");
@@ -222,8 +222,8 @@ public class ChatFrame extends JFrame{
 
 		@Override
 		public void run(){
-			try(ASocketServer<ASocketHandler<String>> server =
-					CSocketHelper.getStringServer(port, process);
+			try(SocketServer<SocketHandler<String>> server =
+					SocketHelper.getStringServer(port, process);
 					BufferedReader in = new BufferedReader(new InputStreamReader(System.in))){
 				server.open();
 				panel.logger.info("Server Opened!");

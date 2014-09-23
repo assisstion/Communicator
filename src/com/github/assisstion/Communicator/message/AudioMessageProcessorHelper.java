@@ -9,10 +9,10 @@ import javax.sound.sampled.DataLine;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.TargetDataLine;
 
-import com.github.assisstion.Communicator.relay.A.ASocketClient;
-import com.github.assisstion.Communicator.relay.A.ASocketHandler;
-import com.github.assisstion.Communicator.relay.A.ASocketServer;
-import com.github.assisstion.Communicator.relay.C.CSocketHelper;
+import com.github.assisstion.Communicator.relay.A.SocketClient;
+import com.github.assisstion.Communicator.relay.A.SocketHandler;
+import com.github.assisstion.Communicator.relay.A.SocketServer;
+import com.github.assisstion.Communicator.relay.C.SocketHelper;
 
 public final class AudioMessageProcessorHelper{
 
@@ -48,13 +48,13 @@ public final class AudioMessageProcessorHelper{
 	}
 
 	public static void startServer(AudioMessageProcessor p, int port) throws IOException, LineUnavailableException{
-		ASocketServer<ASocketHandler<byte[]>> server = CSocketHelper.getByteArrayServer(port, p);
+		SocketServer<SocketHandler<byte[]>> server = SocketHelper.getByteArrayServer(port, p);
 		server.open();
 		startWrite(p);
 	}
 
 	public static void startClient(AudioMessageProcessor p, String host, int port) throws IOException, LineUnavailableException{
-		ASocketClient<ASocketHandler<byte[]>> client = CSocketHelper.getByteArrayClient(host, port, p);
+		SocketClient<SocketHandler<byte[]>> client = SocketHelper.getByteArrayClient(host, port, p);
 		client.open();
 		startWrite(p);
 	}

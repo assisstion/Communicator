@@ -5,31 +5,30 @@ import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 
-import com.github.assisstion.Communicator.relay.B.BSocketHandlerImplAbstract;
-import com.github.assisstion.Communicator.relay.B.BSocketProcessor;
-import com.github.assisstion.Communicator.relay.B.BSocketHandlerImplAbstract.Inputtor;
+import com.github.assisstion.Communicator.relay.B.SocketHandlerImplAbstract;
+import com.github.assisstion.Communicator.relay.B.SocketProcessor;
 
-public class SSocketStreamHandlerImpl extends BSocketHandlerImplAbstract<byte[]> {
+public class SocketStreamHandlerImpl extends SocketHandlerImplAbstract<byte[]> {
 	public static final int DEFAULT_BUFFER_SIZE = 1024;
 
 	protected BufferedOutputStream out;
 	protected BufferedInputStream in;
 	protected int bufferSize = DEFAULT_BUFFER_SIZE;
 
-	public SSocketStreamHandlerImpl(BSocketProcessor<byte[]> processor){
+	public SocketStreamHandlerImpl(SocketProcessor<byte[]> processor){
 		super(processor);
 	}
 
-	public SSocketStreamHandlerImpl(Socket socket, BSocketProcessor<byte[]> processor){
+	public SocketStreamHandlerImpl(Socket socket, SocketProcessor<byte[]> processor){
 		super(socket, processor);
 	}
 
-	public SSocketStreamHandlerImpl(BSocketProcessor<byte[]> processor, int bufferSize){
+	public SocketStreamHandlerImpl(SocketProcessor<byte[]> processor, int bufferSize){
 		super(processor);
 		this.bufferSize = bufferSize;
 	}
 
-	public SSocketStreamHandlerImpl(Socket socket, BSocketProcessor<byte[]> processor, int bufferSize){
+	public SocketStreamHandlerImpl(Socket socket, SocketProcessor<byte[]> processor, int bufferSize){
 		super(socket, processor);
 		this.bufferSize = bufferSize;
 	}

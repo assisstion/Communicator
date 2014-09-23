@@ -9,11 +9,11 @@ import javax.sound.sampled.DataLine;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.SourceDataLine;
 
-import com.github.assisstion.Communicator.relay.B.BSocketProcessorGenerator;
-import com.github.assisstion.Communicator.relay.C.CSocketProcessorAbstract;
+import com.github.assisstion.Communicator.relay.B.SocketProcessorGenerator;
+import com.github.assisstion.Communicator.relay.C.SocketProcessorAbstract;
 
 
-public class AudioMessageProcessor extends CSocketProcessorAbstract<byte[]> implements BSocketProcessorGenerator<AudioMessageProcessor>{
+public class AudioMessageProcessor extends SocketProcessorAbstract<byte[]> implements SocketProcessorGenerator<AudioMessageProcessor>{
 
 	public static final int BUFFER_SIZE = 1024;
 

@@ -3,22 +3,22 @@ package com.github.assisstion.Communicator.relay.B;
 import java.io.IOException;
 import java.net.Socket;
 
-import com.github.assisstion.Communicator.relay.A.ASocketHandler;
+import com.github.assisstion.Communicator.relay.A.SocketHandler;
 
-public abstract class BSocketHandlerImplAbstract<T> implements ASocketHandler<T>{
+public abstract class SocketHandlerImplAbstract<T> implements SocketHandler<T>{
 
 	protected Socket socket;
-	protected BSocketProcessor<T> processor;
+	protected SocketProcessor<T> processor;
 	protected boolean init = false;
 	protected boolean closed = false;
 	protected boolean open = false;
 	protected boolean started = false;
 
-	public BSocketHandlerImplAbstract(BSocketProcessor<T> processor){
+	public SocketHandlerImplAbstract(SocketProcessor<T> processor){
 		this.processor = processor;
 	}
 
-	public BSocketHandlerImplAbstract(Socket socket, BSocketProcessor<T> processor){
+	public SocketHandlerImplAbstract(Socket socket, SocketProcessor<T> processor){
 		this(processor);
 		openSocket(socket);
 	}

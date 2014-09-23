@@ -4,12 +4,12 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import com.github.assisstion.Communicator.relay.A.ASocketHandler;
-import com.github.assisstion.Communicator.relay.B.BSocketProcessorGenerator;
-import com.github.assisstion.Communicator.relay.C.CSocketProcessorAbstract;
+import com.github.assisstion.Communicator.relay.A.SocketHandler;
+import com.github.assisstion.Communicator.relay.B.SocketProcessorGenerator;
+import com.github.assisstion.Communicator.relay.C.SocketProcessorAbstract;
 
 
-public class MessageProcessor extends CSocketProcessorAbstract<String> implements BSocketProcessorGenerator<MessageProcessor>{
+public class MessageProcessor extends SocketProcessorAbstract<String> implements SocketProcessorGenerator<MessageProcessor>{
 
 	protected Logger logger = null;
 	protected MessageCommandProcessor cmd;
@@ -23,7 +23,7 @@ public class MessageProcessor extends CSocketProcessorAbstract<String> implement
 	}
 
 	@Override
-	public void attachHandler(ASocketHandler<String> handler){
+	public void attachHandler(SocketHandler<String> handler){
 		super.attachHandler(handler);
 		String info = "Attached handler: " + handler.getSocket();
 		if(logger == null){
@@ -37,7 +37,7 @@ public class MessageProcessor extends CSocketProcessorAbstract<String> implement
 	}
 
 	@Override
-	public void removeHandler(ASocketHandler<String> handler){
+	public void removeHandler(SocketHandler<String> handler){
 		super.removeHandler(handler);
 		String info = "Removed handler: " + handler.getSocket();
 		if(logger == null){

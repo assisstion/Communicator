@@ -6,20 +6,20 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 
-import com.github.assisstion.Communicator.relay.B.BSocketHandlerImplAbstract;
-import com.github.assisstion.Communicator.relay.B.BSocketProcessor;
-import com.github.assisstion.Communicator.relay.B.BSocketHandlerImplAbstract.Inputtor;
+import com.github.assisstion.Communicator.relay.B.SocketHandlerImplAbstract;
+import com.github.assisstion.Communicator.relay.B.SocketProcessor;
+import com.github.assisstion.Communicator.relay.B.SocketHandlerImplAbstract.Inputtor;
 
-public class BSocketStringHandlerImpl extends BSocketHandlerImplAbstract<String>{
+public class BSocketStringHandlerImpl extends SocketHandlerImplAbstract<String>{
 
 	protected PrintWriter out;
 	protected BufferedReader in;
 
-	public BSocketStringHandlerImpl(BSocketProcessor<String> processor){
+	public BSocketStringHandlerImpl(SocketProcessor<String> processor){
 		super(processor);
 	}
 
-	public BSocketStringHandlerImpl(Socket socket, BSocketProcessor<String> processor){
+	public BSocketStringHandlerImpl(Socket socket, SocketProcessor<String> processor){
 		super(socket, processor);
 	}
 
