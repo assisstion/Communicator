@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.sound.sampled.LineUnavailableException;
+
 import com.github.assisstion.Communicator.relay.A.SocketHandler;
 import com.github.assisstion.Communicator.relay.B.SocketProcessorGenerator;
 import com.github.assisstion.Communicator.relay.C.SocketProcessorAbstract;
@@ -13,13 +15,25 @@ public class MessageProcessor extends SocketProcessorAbstract<String> implements
 
 	protected Logger logger = null;
 	protected MessageCommandProcessor cmd;
+	protected AudioMessageProcessor audioProcess;
 
 	public MessageProcessor(){
-
+		try{
+			audioProcess = new AudioMessageProcessor();
+		}
+		catch(LineUnavailableException e){
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	public MessageProcessor(MessageCommandProcessor mcp){
+		this();
 		cmd = mcp;
+	}
+
+	public AudioMessageProcessor getAudioProcess(){
+		return audioProcess;
 	}
 
 	@Override

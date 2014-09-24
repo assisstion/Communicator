@@ -4,9 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.util.LinkedList;
 import java.util.List;
@@ -20,6 +18,9 @@ import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 
+import com.github.assisstion.Communicator.message.AudioMessageProcessor;
+import com.github.assisstion.Communicator.message.MessageCommandProcessor;
+import com.github.assisstion.Communicator.message.MessageCommandProcessorImpl;
 import com.github.assisstion.Communicator.message.MessageProcessor;
 import com.github.assisstion.Communicator.relay.A.SocketClient;
 import com.github.assisstion.Communicator.relay.A.SocketHandler;
@@ -27,6 +28,8 @@ import com.github.assisstion.Communicator.relay.A.SocketServer;
 import com.github.assisstion.Communicator.relay.C.SocketHelper;
 
 public class ChatFrame extends JFrame{
+
+	private static final int PORT_MODIFIER = 1;
 
 	/**
 	 *
@@ -101,7 +104,9 @@ public class ChatFrame extends JFrame{
 
 		JButton btnStartClient = new JButton("Start Client");
 		btnStartClient.addActionListener(e -> {
-			MessageProcessor processor = new MessageProcessor();
+			MessageCommandProcessor mcp = new MessageCommandProcessorImpl();
+			MessageProcessor processor = new MessageProcessor(mcp);
+			mcp.setMessageProcessor(processor);
 			try{
 				startClient(cHost.getText(), Integer.parseInt(cPort.getText()), processor);
 			}
@@ -133,7 +138,9 @@ public class ChatFrame extends JFrame{
 
 		JButton btnStartServer = new JButton("Start Server");
 		btnStartServer.addActionListener(e ->{
-			MessageProcessor processor = new MessageProcessor();
+			MessageCommandProcessor mcp = new MessageCommandProcessorImpl();
+			MessageProcessor processor = new MessageProcessor(mcp);
+			mcp.setMessageProcessor(processor);
 			try{
 				startServer(Integer.parseInt(sPort.getText()), processor);
 			}
@@ -156,6 +163,7 @@ public class ChatFrame extends JFrame{
 		protected String host;
 		protected int port;
 		protected MessageProcessor process;
+		protected AudioMessageProcessor audioProcess;
 		protected ChatPanel panel;
 
 		public ClientStarter(ChatPanel panel, String host, int port, MessageProcessor process){
@@ -163,6 +171,7 @@ public class ChatFrame extends JFrame{
 			this.host = host;
 			this.port = port;
 			this.process = process;
+			audioProcess = process.getAudioProcess();
 		}
 
 		@Override
@@ -170,8 +179,13 @@ public class ChatFrame extends JFrame{
 			try(
 					SocketClient<SocketHandler<String>> client =
 					SocketHelper.getStringClient(host, port, process);
-					BufferedReader in = new BufferedReader(new InputStreamReader(System.in))){
+					SocketClient<SocketHandler<byte[]>> audioClient =
+							audioProcess != null ? SocketHelper.getByteArrayClient(
+									host, port + PORT_MODIFIER, audioProcess) : null; ){
 				client.open();
+				if(audioClient != null){
+					audioClient.open();
+				}
 				panel.logger.info("Client Opened!");
 
 				Thread chatThread = new Thread(panel);
@@ -213,19 +227,26 @@ public class ChatFrame extends JFrame{
 		protected int port;
 		protected MessageProcessor process;
 		protected ChatPanel panel;
+		protected AudioMessageProcessor audioProcess;
 
 		public ServerStarter(ChatPanel panel, int port, MessageProcessor process){
 			this.panel = panel;
 			this.port = port;
 			this.process = process;
+			audioProcess = process.getAudioProcess();
 		}
 
 		@Override
 		public void run(){
 			try(SocketServer<SocketHandler<String>> server =
 					SocketHelper.getStringServer(port, process);
-					BufferedReader in = new BufferedReader(new InputStreamReader(System.in))){
+					SocketServer<SocketHandler<byte[]>> audioServer =
+							audioProcess != null ? SocketHelper.getByteArrayServer(
+									port + PORT_MODIFIER, audioProcess) : null; ){
 				server.open();
+				if(audioServer != null){
+					audioServer.open();
+				}
 				panel.logger.info("Server Opened!");
 				Thread chatThread = new Thread(panel);
 				chatThread.start();

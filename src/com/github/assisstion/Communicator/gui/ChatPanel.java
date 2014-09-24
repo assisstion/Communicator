@@ -17,6 +17,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import com.github.assisstion.Communicator.message.MessageCommandProcessor;
 import com.github.assisstion.Communicator.message.MessageProcessor;
 
 public class ChatPanel extends JPanel implements Runnable{
@@ -133,13 +134,21 @@ public class ChatPanel extends JPanel implements Runnable{
 				catch(IOException e){
 					break;
 				}
-				String nickInput = nick.getText();
-				if(nickInput.length() == 0){
-					nickInput = "Guest_" + id;
-				}
-				input = nickInput + ": " + input;
-				if(logger.isLoggable(Level.INFO)){
-					logger.info(input);
+				MessageCommandProcessor mcp = mp.getCommandProcessor();
+				if(mcp == null || !mcp.isCommand(mcp.processOut(input))){
+					String nickInput = nick.getText();
+					if(nickInput.length() == 0){
+						nickInput = "Guest_" + id;
+					}
+					input = nickInput + ": " + input;
+					if(logger.isLoggable(Level.INFO)){
+						if(mcp != null){
+							logger.info(mcp.processOut(input));
+						}
+						else{
+							logger.info(input);
+						}
+					}
 				}
 				try{
 					mp.output(input, false);

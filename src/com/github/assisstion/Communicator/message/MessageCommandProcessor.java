@@ -13,4 +13,6 @@ public interface MessageCommandProcessor{
 
 	//Run the command, with the boolean telling if the command is for output
 	String runCommand(String command, boolean isGoingOut);
+
+	void setMessageProcessor(MessageProcessor mp);
 }
