@@ -115,6 +115,7 @@ public class ChatPanel extends JPanel implements Runnable{
 		try{
 			dis.close();
 			dos.close();
+			mp.close();
 		}
 		catch(IOException e){
 			// TODO Auto-generated catch block

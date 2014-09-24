@@ -17,14 +17,20 @@ public class MessageProcessor extends SocketProcessorAbstract<String> implements
 	protected MessageCommandProcessor cmd;
 	protected AudioMessageProcessor audioProcess;
 
+	public MessageProcessor(boolean enableAudio){
+		if(enableAudio){
+			try{
+				audioProcess = new AudioMessageProcessor();
+			}
+			catch(LineUnavailableException e){
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
+
 	public MessageProcessor(){
-		try{
-			audioProcess = new AudioMessageProcessor();
-		}
-		catch(LineUnavailableException e){
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		this(true);
 	}
 
 	public MessageProcessor(MessageCommandProcessor mcp){
@@ -120,5 +126,13 @@ public class MessageProcessor extends SocketProcessorAbstract<String> implements
 
 	public MessageCommandProcessor getCommandProcessor(){
 		return cmd;
+	}
+
+	@Override
+	public void close() throws IOException{
+		AudioMessageProcessor amp = getAudioProcess();
+		if(amp != null){
+			amp.close();
+		}
 	}
 }

@@ -61,7 +61,7 @@ MessageCommandProcessor{
 				if(commandName.equals("call")){
 					AudioMessageProcessor amp = mp.getAudioProcess();
 					if(amp != null){
-						amp.setEnableWriting(true);
+						amp.setEnabled(true);
 						mp.getLogger().log(CustomLevel.NOMESSAGE, "Outgoing call started!");
 
 					}
@@ -73,7 +73,7 @@ MessageCommandProcessor{
 				else if(commandName.equals("endcall")){
 					AudioMessageProcessor amp = mp.getAudioProcess();
 					if(amp != null){
-						amp.setEnableWriting(false);
+						amp.setEnabled(false);
 						mp.getLogger().log(CustomLevel.NOMESSAGE, "Call ended by command!");
 
 					}
@@ -90,7 +90,7 @@ MessageCommandProcessor{
 				if(commandName.equals("callin")){
 					AudioMessageProcessor amp = mp.getAudioProcess();
 					if(amp != null){
-						amp.setEnableWriting(true);
+						amp.setEnabled(true);
 						mp.getLogger().log(CustomLevel.NOMESSAGE, "Incoming call started!");
 					}
 					else{
@@ -101,7 +101,7 @@ MessageCommandProcessor{
 				else if(commandName.equals("endcallin")){
 					AudioMessageProcessor amp = mp.getAudioProcess();
 					if(amp != null){
-						amp.setEnableWriting(false);
+						amp.setEnabled(false);
 						mp.getLogger().log(CustomLevel.NOMESSAGE, "Call ended from other end!");
 					}
 					else{

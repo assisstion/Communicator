@@ -20,7 +20,7 @@ public class AudioMessageProcessor extends SocketProcessorAbstract<byte[]> imple
 
 	protected AudioFormat format;
 	protected SourceDataLine line;
-	protected boolean enableWriting = false;
+	protected boolean enabled = false;
 	protected boolean started;
 
 	public AudioMessageProcessor() throws LineUnavailableException{
@@ -33,11 +33,11 @@ public class AudioMessageProcessor extends SocketProcessorAbstract<byte[]> imple
 		new Thread(this).start();
 	}
 
-	public void setEnableWriting(boolean en){
-		if(enableWriting == en){
+	public void setEnabled(boolean en){
+		if(enabled == en){
 			return;
 		}
-		enableWriting = en;
+		enabled = en;
 		if(en == true){
 			synchronized(this){
 				notify();
@@ -45,8 +45,8 @@ public class AudioMessageProcessor extends SocketProcessorAbstract<byte[]> imple
 		}
 	}
 
-	public boolean isWritingEnabled(){
-		return enableWriting;
+	public boolean isEnabled(){
+		return enabled;
 	}
 
 	@Override
@@ -59,7 +59,7 @@ public class AudioMessageProcessor extends SocketProcessorAbstract<byte[]> imple
 				else{
 					started = true;
 				}
-				while(!isWritingEnabled()){
+				while(!isEnabled()){
 					try{
 						wait();
 					}
@@ -85,7 +85,7 @@ public class AudioMessageProcessor extends SocketProcessorAbstract<byte[]> imple
 		byte[] buf = new byte[BUFFER_SIZE];
 		int count = in.read(buf);
 		while(count >= 0){
-			while(!isWritingEnabled()){
+			while(!isEnabled()){
 				try{
 					wait();
 				}
@@ -103,7 +103,9 @@ public class AudioMessageProcessor extends SocketProcessorAbstract<byte[]> imple
 
 	@Override
 	public void input(byte[] in){
-		line.write(in, 0, in.length);
+		if(isEnabled()){
+			line.write(in, 0, in.length);
+		}
 	}
 
 	public void close(){

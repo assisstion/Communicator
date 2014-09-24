@@ -1,5 +1,6 @@
 package com.github.assisstion.Communicator.relay.B;
 
+import java.io.Closeable;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.Set;
@@ -15,7 +16,7 @@ import com.github.assisstion.Communicator.relay.A.SocketHandler;
  *
  * @param <T> The type of the objects to read and write.
  */
-public interface SocketProcessor<T>{
+public interface SocketProcessor<T> extends Closeable{
 
 	/**
 	 * Called by a SocketHandler when input is recieved

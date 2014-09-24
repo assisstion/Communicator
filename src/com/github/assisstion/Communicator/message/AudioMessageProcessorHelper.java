@@ -60,7 +60,7 @@ public final class AudioMessageProcessorHelper{
 	}
 
 	public static void startWrite(AudioMessageProcessor p) throws IOException, LineUnavailableException{
-		p.setEnableWriting(true);
+		p.setEnabled(true);
 		AudioFormat format = AudioMessageProcessor.getFormat();
 		DataLine.Info info = new DataLine.Info(
 				TargetDataLine.class, format);

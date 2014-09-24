@@ -45,7 +45,7 @@ public final class SocketHelper{
 	 * @return the SocketClient generated
 	 * @throws IOException
 	 */
-	public static <T extends SocketProcessor<String>> SocketClient<SocketHandler<String>>
+	public static SocketClient<SocketHandler<String>>
 	getStringClient(String host, int port, SocketProcessor<String> process)
 			throws IOException{
 		SocketStringHandler handler = new SocketStringHandler(process);
@@ -77,7 +77,7 @@ public final class SocketHelper{
 	 * @return the SocketClient generated
 	 * @throws IOException
 	 */
-	public static <T extends SocketProcessor<byte[]>> SocketClient<SocketHandler<byte[]>>
+	public static SocketClient<SocketHandler<byte[]>>
 	getByteArrayClient(String host, int port, SocketProcessor<byte[]> gen)
 			throws IOException{
 		SocketStreamHandler handler = new SocketStreamHandler(gen);
