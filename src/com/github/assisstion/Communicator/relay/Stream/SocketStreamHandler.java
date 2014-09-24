@@ -8,17 +8,46 @@ import java.net.Socket;
 import com.github.assisstion.Communicator.relay.B.SocketHandlerAbstract;
 import com.github.assisstion.Communicator.relay.B.SocketProcessor;
 
+/**
+ * A SocketHandler used for byte[] data.
+ *
+ * @author Markus Feng
+ */
 public class SocketStreamHandler extends SocketHandlerAbstract<byte[]> {
+
+	/**
+	 * The default buffer size for streaming byte[]
+	 */
 	public static final int DEFAULT_BUFFER_SIZE = 1024;
 
+	/**
+	 * The OutputStream wrapper to write to
+	 */
 	protected BufferedOutputStream out;
+	/**
+	 * The InputStream wrapper to read from
+	 */
 	protected BufferedInputStream in;
+
+	/**
+	 * The buffer size for streaming byte[]
+	 */
 	protected int bufferSize = DEFAULT_BUFFER_SIZE;
 
+	/**
+	 * Creates a new SocketStreamHandler with the given processor.
+	 * @param processor the processor to use
+	 */
 	public SocketStreamHandler(SocketProcessor<byte[]> processor){
 		super(processor);
 	}
 
+	/**
+	 * Creates a new SocketStreamHandler with the given processor and socket.
+	 * Calls openSocket(socket) within this constructor.
+	 * @param socket the socket to use
+	 * @param processor the processor to use
+	 */
 	public SocketStreamHandler(Socket socket, SocketProcessor<byte[]> processor){
 		super(socket, processor);
 	}
@@ -49,12 +78,7 @@ public class SocketStreamHandler extends SocketHandlerAbstract<byte[]> {
 				try{
 					byte[] byteHolder = new byte[count];
 					System.arraycopy(buffer, 0, byteHolder, 0, count);
-					if(!processor.isInputBlockingEnabled()){
-						new Thread(new Inputtor(byteHolder)).start();
-					}
-					else{
-						new Inputtor(byteHolder).run();
-					}
+					pushToProcessor(byteHolder);
 				}
 				catch(Exception e){
 					if(!closed){

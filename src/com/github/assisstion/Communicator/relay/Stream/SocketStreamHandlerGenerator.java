@@ -7,6 +7,11 @@ import com.github.assisstion.Communicator.relay.A.SocketHandlerGenerator;
 import com.github.assisstion.Communicator.relay.B.SocketProcessor;
 import com.github.assisstion.Communicator.relay.B.SocketProcessorGenerator;
 
+/**
+ * A class for generating SocketStreamHandlers
+ *
+ * @author Markus Feng
+ */
 public class SocketStreamHandlerGenerator implements
 SocketHandlerGenerator<SocketHandler<byte[]>>{
 

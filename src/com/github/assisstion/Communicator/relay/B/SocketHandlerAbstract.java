@@ -5,6 +5,13 @@ import java.net.Socket;
 
 import com.github.assisstion.Communicator.relay.A.SocketHandler;
 
+/**
+ * An abstract implementation of SocketHandler.
+ *
+ * @author Markus Feng
+ *
+ * @param <T> The type of objects to read and write.
+ */
 public abstract class SocketHandlerAbstract<T> implements SocketHandler<T>{
 
 	protected Socket socket;
@@ -14,15 +21,30 @@ public abstract class SocketHandlerAbstract<T> implements SocketHandler<T>{
 	protected boolean open = false;
 	protected boolean started = false;
 
+	protected SocketHandlerAbstract(){
+
+	}
+
+	/**
+	 * Creates a new SocketHandlerAbstract with the given processor.
+	 * @param processor the processor to use
+	 */
 	public SocketHandlerAbstract(SocketProcessor<T> processor){
 		this.processor = processor;
 	}
 
+	/**
+	 * Creates a new SocketHandlerAbstract with the given processor and socket.
+	 * Calls openSocket(socket) within this constructor.
+	 * @param socket the socket to use
+	 * @param processor the processor to use
+	 */
 	public SocketHandlerAbstract(Socket socket, SocketProcessor<T> processor){
 		this(processor);
 		openSocket(socket);
 	}
 
+	@Override
 	public synchronized void openSocket(Socket socket){
 		this.socket = socket;
 		processor.attachHandler(this);
@@ -74,11 +96,37 @@ public abstract class SocketHandlerAbstract<T> implements SocketHandler<T>{
 		}
 	}
 
+	/**
+	 * Called by the SocketHandler when the input and output are to be initialized.
+	 * @throws IOException
+	 */
 	protected abstract void initialize() throws IOException;
 
+	/**
+	 * Called by the SocketHandler when reading from the input begins
+	 * @throws IOException
+	 */
 	protected abstract void readFromIn() throws IOException;
 
+	/**
+	 * Called by the SocketHandler when an object is to be written to the output
+	 * @throws IOException
+	 */
 	protected abstract void writeToOut(T obj) throws IOException;
+
+	/**
+	 * This method pushes the object just read to the processor.
+	 * This method can be called by the subclass in readFromIn().
+	 * @param obj the object just read
+	 */
+	protected void pushToProcessor(T obj){
+		if(!processor.isInputBlockingEnabled()){
+			new Thread(new Inputtor(obj)).start();
+		}
+		else{
+			new Inputtor(obj).run();
+		}
+	}
 
 	@Override
 	public void push(T out) throws IOException{
@@ -111,7 +159,11 @@ public abstract class SocketHandlerAbstract<T> implements SocketHandler<T>{
 		socket.close();
 	}
 
-	public class Inputtor implements Runnable{
+	/**
+	 * A class used for pushing inputs to the processor
+	 * @author Markus Feng
+	 */
+	protected class Inputtor implements Runnable{
 
 		protected T in;
 

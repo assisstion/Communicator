@@ -7,12 +7,29 @@ import com.github.assisstion.Communicator.relay.A.SocketHandler;
 import com.github.assisstion.Communicator.relay.A.SocketServer;
 import com.github.assisstion.Communicator.relay.B.SocketProcessor;
 import com.github.assisstion.Communicator.relay.B.SocketProcessorGenerator;
-import com.github.assisstion.Communicator.relay.Stream.SocketStreamHandlerGenerator;
 import com.github.assisstion.Communicator.relay.Stream.SocketStreamHandler;
-import com.github.assisstion.Communicator.relay.String.SocketStringHandlerGenerator;
+import com.github.assisstion.Communicator.relay.Stream.SocketStreamHandlerGenerator;
 import com.github.assisstion.Communicator.relay.String.SocketStringHandler;
+import com.github.assisstion.Communicator.relay.String.SocketStringHandlerGenerator;
 
-public class SocketHelper{
+/**
+ * A helper class used to easily generate SocketServers and SocketClients
+ *
+ * @author Markus Feng
+ */
+public final class SocketHelper{
+
+	private SocketHelper(){
+		//Do nothing
+	}
+
+	/**
+	 * Creates a String SocketServer
+	 * @param port the port of the server
+	 * @param gen the SocketProcessorGenerator of the handler of the server
+	 * @return the SocketServer generated
+	 * @throws IOException
+	 */
 	public static <T extends SocketProcessor<String>> SocketServer<SocketHandler<String>>
 	getStringServer(int port, SocketProcessorGenerator<T> gen)
 			throws IOException{
@@ -20,16 +37,31 @@ public class SocketHelper{
 				new SocketStringHandlerGenerator(gen));
 	}
 
+	/**
+	 * Creates a String SocketClient
+	 * @param host the host of the client
+	 * @param port the port of the client
+	 * @param process the SocketProcess of the handler of the client
+	 * @return the SocketClient generated
+	 * @throws IOException
+	 */
 	public static <T extends SocketProcessor<String>> SocketClient<SocketHandler<String>>
-	getStringClient(String host, int port, SocketProcessor<String> gen)
+	getStringClient(String host, int port, SocketProcessor<String> process)
 			throws IOException{
-		SocketStringHandler handler = new SocketStringHandler(gen);
+		SocketStringHandler handler = new SocketStringHandler(process);
 		SocketClient<SocketHandler<String>> client = new SocketClient<SocketHandler<String>>(host, port,
 				handler);
 		handler.openSocket(client.getClientSocket());
 		return client;
 	}
 
+	/**
+	 * Creates a byte[] SocketServer
+	 * @param port the port of the server
+	 * @param gen the SocketProcessorGenerator of the handler of the server
+	 * @return the SocketServer generated
+	 * @throws IOException
+	 */
 	public static <T extends SocketProcessor<byte[]>> SocketServer<SocketHandler<byte[]>>
 	getByteArrayServer(int port, SocketProcessorGenerator<T> gen)
 			throws IOException{
@@ -37,6 +69,14 @@ public class SocketHelper{
 				new SocketStreamHandlerGenerator(gen));
 	}
 
+	/**
+	 * Creates a byte[] SocketClient
+	 * @param host the host of the client
+	 * @param port the port of the client
+	 * @param process the SocketProcess of the handler of the client
+	 * @return the SocketClient generated
+	 * @throws IOException
+	 */
 	public static <T extends SocketProcessor<byte[]>> SocketClient<SocketHandler<byte[]>>
 	getByteArrayClient(String host, int port, SocketProcessor<byte[]> gen)
 			throws IOException{

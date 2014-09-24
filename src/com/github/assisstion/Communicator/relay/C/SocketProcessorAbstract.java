@@ -8,6 +8,13 @@ import java.util.Set;
 import com.github.assisstion.Communicator.relay.A.SocketHandler;
 import com.github.assisstion.Communicator.relay.B.SocketProcessor;
 
+/**
+ * An abstract implementation of SocketProcessor
+ *
+ * @author Markus Feng
+ *
+ * @param <T> The type of the objects to read and write.
+ */
 public abstract class SocketProcessorAbstract<T> implements SocketProcessor<T>{
 
 	protected Set<SocketHandler<T>> handlers = new HashSet<SocketHandler<T>>();
@@ -52,7 +59,12 @@ public abstract class SocketProcessorAbstract<T> implements SocketProcessor<T>{
 		}
 	}
 
-	public class Outputter implements Runnable{
+	/**
+	 * A class used for outputting data to the handler.
+	 *
+	 * @author Markus Feng
+	 */
+	protected class Outputter implements Runnable{
 
 		protected T text = null;
 		protected SocketHandler<T> out = null;

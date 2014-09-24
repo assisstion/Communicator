@@ -3,6 +3,7 @@ package com.github.assisstion.Communicator.relay.A;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
@@ -11,8 +12,22 @@ import java.util.concurrent.CopyOnWriteArraySet;
 
 import com.github.assisstion.Communicator.relay.SocketServerMachine;
 import com.github.assisstion.Communicator.relay.L.SocketListener;
+import com.github.assisstion.Communicator.relay.L.SocketListenerHandler;
 
-public class SocketServer<T extends SocketHandler<?>> implements SocketServerMachine<T>{
+/**
+ * An implementation of SocketServerMachine. Makes a new thread of the
+ * Runnable in the constructor and runs it. After close() is called, instances of
+ * SocketServer's methods will not have any function. close() also calls the close
+ * function of the all SocketHandlers of the clients of the SocketServer.
+ *
+ * This class also contains methods to allow it to be a SocketListenerHandler. The
+ * accept(T) function is called whenever a new incoming connection is formed.
+ *
+ * @author Markus Feng
+ *
+ * @param <T> The type of SocketHandler used in this server.
+ */
+public class SocketServer<T extends SocketHandler<?>> implements SocketServerMachine<T>, SocketListenerHandler<T>{
 
 	protected boolean open;
 
@@ -28,6 +43,12 @@ public class SocketServer<T extends SocketHandler<?>> implements SocketServerMac
 		listeners = new CopyOnWriteArraySet<SocketListener<T>>();
 	}
 
+	/**
+	 * Creates a SocketServer with the given ServerSocket and SocketHandlerGenerator
+	 * @param socket the ServerSocket associated with the server
+	 * @param gen the SocketHandlerGenerator associated with the server
+	 * @throws IOException
+	 */
 	public SocketServer(ServerSocket socket, SocketHandlerGenerator<T> gen) throws IOException{
 		this();
 		generator = gen;
@@ -35,6 +56,12 @@ public class SocketServer<T extends SocketHandler<?>> implements SocketServerMac
 		new Thread(this).start();
 	}
 
+	/**
+	 * Creates a SocketServer with the given port and SocketHandlerGenerator
+	 * @param port the port associated with the server's ServerSocket
+	 * @param gen the SocketHandlerGenerator associated with the server
+	 * @throws IOException
+	 */
 	public SocketServer(int port, SocketHandlerGenerator<T> gen) throws IOException{
 		this(new ServerSocket(port), gen);
 	}
@@ -122,30 +149,35 @@ public class SocketServer<T extends SocketHandler<?>> implements SocketServerMac
 	}
 
 	@Override
-	public Set<SocketListener<T>> getListenerSet(){
+	public Set<SocketListener<T>> getSocketListenerSet(){
 		return Collections.unmodifiableSet(listeners);
 	}
 
 	@Override
-	public void addListener(SocketListener<T> listener){
+	public void addSocketListener(SocketListener<T> listener){
 		listeners.add(listener);
 	}
 
 	@Override
-	public void addListeners(Set<SocketListener<T>> listeners){
+	public void addSocketListeners(Collection<SocketListener<T>> listeners){
 		listeners.addAll(listeners);
 	}
 
 	@Override
-	public void removeListener(SocketListener<T> listener){
+	public void removeSocketListener(SocketListener<T> listener){
 		listeners.remove(listener);
 	}
 
 	@Override
-	public void removeListeners(Set<SocketListener<T>> listeners){
+	public void removeSocketListeners(Collection<SocketListener<T>> listeners){
 		listeners.removeAll(listeners);
 	}
 
+	/**
+	 * A class for handling dispatches to the SocketListeners.
+	 *
+	 * @author Markus Feng
+	 */
 	protected class LSocketDispatcher implements Runnable{
 
 		protected T handler;

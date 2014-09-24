@@ -9,15 +9,37 @@ import java.net.Socket;
 import com.github.assisstion.Communicator.relay.B.SocketHandlerAbstract;
 import com.github.assisstion.Communicator.relay.B.SocketProcessor;
 
+/**
+ * A SocketHandler used for String data.
+ *
+ * @author Markus Feng
+ */
 public class SocketStringHandler extends SocketHandlerAbstract<String>{
 
+	/**
+	 * The OutputStream wrapper to write to
+	 */
 	protected PrintWriter out;
+
+	/**
+	 * The InputStream wrapper to read from
+	 */
 	protected BufferedReader in;
 
+	/**
+	 * Creates a new SocketStringHandler with the given processor.
+	 * @param processor the processor to use
+	 */
 	public SocketStringHandler(SocketProcessor<String> processor){
 		super(processor);
 	}
 
+	/**
+	 * Creates a new SocketStringHandler with the given processor and socket.
+	 * Calls openSocket(socket) within this constructor.
+	 * @param socket the socket to use
+	 * @param processor the processor to use
+	 */
 	public SocketStringHandler(Socket socket, SocketProcessor<String> processor){
 		super(socket, processor);
 	}
@@ -37,12 +59,7 @@ public class SocketStringHandler extends SocketHandlerAbstract<String>{
 		while (!closed && (inputLine = in.readLine()) != null) {
 			if(!closed){
 				try{
-					if(!processor.isInputBlockingEnabled()){
-						new Thread(new Inputtor(inputLine)).start();
-					}
-					else{
-						new Inputtor(inputLine).run();
-					}
+					pushToProcessor(inputLine);
 				}
 				catch(Exception e){
 					if(!closed){

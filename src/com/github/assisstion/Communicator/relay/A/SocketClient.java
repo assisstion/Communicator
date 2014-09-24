@@ -5,6 +5,16 @@ import java.net.Socket;
 
 import com.github.assisstion.Communicator.relay.SocketClientMachine;
 
+/**
+ * An implementation of SocketClientMachine. Makes a new thread of the
+ * Runnable in the constructor and runs it. After close() is called, instances of
+ * SocketClient's methods will not have any function. close() also calls the close
+ * function of the current SocketHandler of the SocketClient.
+ *
+ * @author Markus Feng
+ *
+ * @param <T> The type of SocketHandler used in this client.
+ */
 public class SocketClient<T extends SocketHandler<?>> implements SocketClientMachine<T>{
 
 	protected boolean open;
@@ -18,6 +28,12 @@ public class SocketClient<T extends SocketHandler<?>> implements SocketClientMac
 
 	}
 
+	/**
+	 * Creates a SocketClient with the specified Socket and Handler
+	 * @param socket the socket associated with the client
+	 * @param handler the handler associated with the client
+	 * @throws IOException
+	 */
 	public SocketClient(Socket socket, T handler) throws IOException{
 		this();
 		this.handler = handler;
@@ -25,6 +41,13 @@ public class SocketClient<T extends SocketHandler<?>> implements SocketClientMac
 		new Thread(this).start();
 	}
 
+	/**
+	 * Creates a SocketClient with the specified host, port, and Handler
+	 * @param host the host associated with the client's socket
+	 * @param port the port associated with the client's socket
+	 * @param handler the handler associated with the client
+	 * @throws IOException
+	 */
 	public SocketClient(String host, int port, T handler) throws IOException{
 		this(new Socket(host, port), handler);
 	}
