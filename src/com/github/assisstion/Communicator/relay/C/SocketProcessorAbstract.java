@@ -1,6 +1,7 @@
 package com.github.assisstion.Communicator.relay.C;
 
 import java.io.IOException;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
@@ -27,6 +28,16 @@ public abstract class SocketProcessorAbstract<T> implements SocketProcessor<T>{
 	@Override
 	public void removeHandler(SocketHandler<T> handler){
 		handlers.remove(handler);
+	}
+
+	@Override
+	public void attachHandlers(Collection<SocketHandler<T>> handlers){
+		handlers.addAll(handlers);
+	}
+
+	@Override
+	public void removeHandlers(Collection<SocketHandler<T>> handlers){
+		handlers.removeAll(handlers);
 	}
 
 	@Override

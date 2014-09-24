@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
 
+import com.github.assisstion.Communicator.relay.ServerMachineSocket;
 import com.github.assisstion.Communicator.relay.SocketServerMachine;
 import com.github.assisstion.Communicator.relay.L.SocketListener;
 import com.github.assisstion.Communicator.relay.L.SocketListenerHandler;
@@ -173,6 +174,11 @@ public class SocketServer<T extends SocketHandler<?>> implements SocketServerMac
 		listeners.removeAll(listeners);
 	}
 
+	@Override
+	public void removeAllSocketListeners(){
+		listeners.clear();
+	}
+
 	/**
 	 * A class for handling dispatches to the SocketListeners.
 	 *
@@ -208,5 +214,10 @@ public class SocketServer<T extends SocketHandler<?>> implements SocketServerMac
 				listener.accept(handler);
 			}
 		}
+	}
+
+	@Override
+	public ServerMachineSocket getSocket(){
+		return new ServerMachineSocketImpl(server);
 	}
 }

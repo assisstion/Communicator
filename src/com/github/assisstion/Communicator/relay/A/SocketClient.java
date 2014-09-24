@@ -3,6 +3,7 @@ package com.github.assisstion.Communicator.relay.A;
 import java.io.IOException;
 import java.net.Socket;
 
+import com.github.assisstion.Communicator.relay.ClientMachineSocket;
 import com.github.assisstion.Communicator.relay.SocketClientMachine;
 
 /**
@@ -58,8 +59,8 @@ public class SocketClient<T extends SocketHandler<?>> implements SocketClientMac
 	}
 
 	@Override
-	public Socket getClientSocket(){
-		return client;
+	public ClientMachineSocket getSocket(){
+		return new ClientMachineSocketImpl(client);
 	}
 
 	@Override

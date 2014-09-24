@@ -51,7 +51,7 @@ public final class SocketHelper{
 		SocketStringHandler handler = new SocketStringHandler(process);
 		SocketClient<SocketHandler<String>> client = new SocketClient<SocketHandler<String>>(host, port,
 				handler);
-		handler.openSocket(client.getClientSocket());
+		handler.openSocket(client.getSocket().get());
 		return client;
 	}
 
@@ -83,7 +83,7 @@ public final class SocketHelper{
 		SocketStreamHandler handler = new SocketStreamHandler(gen);
 		SocketClient<SocketHandler<byte[]>> client = new SocketClient<SocketHandler<byte[]>>(host, port,
 				handler);
-		handler.openSocket(client.getClientSocket());
+		handler.openSocket(client.getSocket().get());
 		return client;
 	}
 }

@@ -1,6 +1,7 @@
 package com.github.assisstion.Communicator.relay.B;
 
 import java.io.IOException;
+import java.util.Collection;
 import java.util.Set;
 
 import com.github.assisstion.Communicator.relay.A.SocketHandler;
@@ -33,6 +34,18 @@ public interface SocketProcessor<T>{
 	 * @param handler a SocketHandler to be removed from this SocketProcessor
 	 */
 	void removeHandler(SocketHandler<T> handler);
+
+	/**
+	 * Adds a collection of SocketHandlers to this SocketProcessor
+	 * @param handlers SocketHandlers to be added to this SocketProcessor
+	 */
+	void attachHandlers(Collection<SocketHandler<T>> handlers);
+
+	/**
+	 * Removes a collection of SocketHandler from this SocketProcessor
+	 * @param handlers SocketHandlers to be removed from this SocketProcessor
+	 */
+	void removeHandlers(Collection<SocketHandler<T>> handlers);
 
 	/**
 	 * Returns the Set of handlers that is associated with this SocketProcessor

@@ -19,4 +19,11 @@ public interface SocketMachine extends Closeable, Runnable{
 	 * immediate interaction with the machine once it is created.
 	 */
 	void open();
+
+
+	/**
+	 * Returns the Socket that is owned by this machine
+	 * @return the Socket that is owned by this machine
+	 */
+	MachineSocket getSocket();
 }

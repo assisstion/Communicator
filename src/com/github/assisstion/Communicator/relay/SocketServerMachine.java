@@ -36,4 +36,7 @@ extends SocketMachine{
 	 * @return the SocketHandlerGenerator for generating SocketHandlers
 	 */
 	SocketHandlerGenerator<T> getHandlerGenerator();
+
+	@Override
+	ServerMachineSocket getSocket();
 }

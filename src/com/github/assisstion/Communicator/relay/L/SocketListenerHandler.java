@@ -44,4 +44,9 @@ public interface SocketListenerHandler<T extends SocketHandler<?>>{
 	 * @param listeners the SocketListeners to be removed from this SocketListenerHandler.
 	 */
 	void removeSocketListeners(Collection<SocketListener<T>> listeners);
+
+	/**
+	 * Removes all SocketListeners from this SocketListenerHandler
+	 */
+	void removeAllSocketListeners();
 }
