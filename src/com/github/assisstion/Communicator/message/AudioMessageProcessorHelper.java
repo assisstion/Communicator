@@ -67,6 +67,6 @@ public final class AudioMessageProcessorHelper{
 		TargetDataLine line = (TargetDataLine) AudioSystem.getLine(info);
 		line.open(format);
 		line.start();
-		p.write(new AudioInputStream(line), false);
+		p.write(new AudioInputStream(line));
 	}
 }

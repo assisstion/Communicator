@@ -91,7 +91,7 @@ public class SocketStreamHandler extends SocketHandlerAbstract<byte[]> {
 	}
 
 	//Up to user to make sure out is not modified
-	//Make new arrays per push
+	//Make new arrays per push, or enable blocking
 	@Override
 	public void writeToOut(byte[] arr) throws IOException{
 		out.write(arr);
