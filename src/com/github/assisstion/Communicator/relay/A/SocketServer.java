@@ -218,6 +218,6 @@ public class SocketServer<T extends SocketHandler<?>> implements SocketServerMac
 
 	@Override
 	public ServerMachineSocket getSocket(){
-		return new ServerMachineSocketImpl(server);
+		return new ServerSocketWrapper(server);
 	}
 }

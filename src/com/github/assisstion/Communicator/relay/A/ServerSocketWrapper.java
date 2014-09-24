@@ -2,23 +2,23 @@ package com.github.assisstion.Communicator.relay.A;
 
 import java.io.IOException;
 import java.net.InetAddress;
-import java.net.Socket;
+import java.net.ServerSocket;
 import java.net.SocketAddress;
 import java.net.SocketException;
 
-import com.github.assisstion.Communicator.relay.ClientMachineSocket;
+import com.github.assisstion.Communicator.relay.ServerMachineSocket;
 
 
-public class ClientMachineSocketImpl implements ClientMachineSocket{
+public class ServerSocketWrapper implements ServerMachineSocket{
 
-	protected Socket socket;
+	protected ServerSocket socket;
 
-	public ClientMachineSocketImpl(Socket socket){
+	public ServerSocketWrapper(ServerSocket socket){
 		this.socket = socket;
 	}
 
 	@Override
-	public Socket get(){
+	public ServerSocket get(){
 		return socket;
 	}
 
@@ -44,7 +44,7 @@ public class ClientMachineSocketImpl implements ClientMachineSocket{
 
 	@Override
 	public InetAddress getLocalAddress(){
-		return socket.getLocalAddress();
+		return socket.getInetAddress();
 	}
 
 	@Override
@@ -53,7 +53,7 @@ public class ClientMachineSocketImpl implements ClientMachineSocket{
 	}
 
 	@Override
-	public int getSoTimeout() throws SocketException{
+	public int getSoTimeout() throws IOException{
 		return socket.getSoTimeout();
 	}
 
@@ -100,7 +100,7 @@ public class ClientMachineSocketImpl implements ClientMachineSocket{
 
 	@Override
 	public int getPort(){
-		return socket.getPort();
+		return socket.getLocalPort();
 	}
 
 }

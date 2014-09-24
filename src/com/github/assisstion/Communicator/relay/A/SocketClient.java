@@ -60,7 +60,7 @@ public class SocketClient<T extends SocketHandler<?>> implements SocketClientMac
 
 	@Override
 	public ClientMachineSocket getSocket(){
-		return new ClientMachineSocketImpl(client);
+		return new ClientSocketWrapper(client);
 	}
 
 	@Override
