@@ -1,6 +1,9 @@
 package com.github.assisstion.Communicator.message;
 
 import java.io.IOException;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioInputStream;
@@ -17,8 +20,9 @@ import com.github.assisstion.Communicator.relay.C.SocketProcessorAbstract;
 public class AudioMessageProcessor extends SocketProcessorAbstract<byte[]> implements SocketProcessorGenerator<AudioMessageProcessor>, Runnable{
 
 	public static final int BUFFER_SIZE = 1024;
+	public static final int AUDIO_BUFFER_SIZE = 65536;
 
-	public static final boolean ENABLE_EXTRP = false;
+	public static final boolean ENABLE_EXTRP = true;
 
 	protected AudioOutProcessor aop;
 	protected AudioInProcessor aip;
@@ -161,8 +165,15 @@ public class AudioMessageProcessor extends SocketProcessorAbstract<byte[]> imple
 
 	protected class AudioOutProcessor implements Runnable{
 
-		protected byte[] outBuffer = new byte[BUFFER_SIZE];
+		protected byte[] backBuffer = new byte[AUDIO_BUFFER_SIZE];
+		protected byte[] outBuffer = new byte[AUDIO_BUFFER_SIZE];
 		protected int outBufferPosition = 0;
+
+		protected ThreadPoolExecutor tpe;
+
+		public AudioOutProcessor(){
+			tpe = new ThreadPoolExecutor(4, 128, 1000, TimeUnit.MILLISECONDS, new LinkedBlockingQueue<Runnable>());
+		}
 
 		protected class AudioOutProcessorPusher implements Runnable{
 
@@ -213,7 +224,7 @@ public class AudioMessageProcessor extends SocketProcessorAbstract<byte[]> imple
 		}
 
 		protected void push(byte[] bytes){
-			new Thread(new AudioOutProcessorPusher(bytes)).start();
+			tpe.execute(new AudioOutProcessorPusher(bytes));
 		}
 
 		@Override
@@ -280,20 +291,29 @@ public class AudioMessageProcessor extends SocketProcessorAbstract<byte[]> imple
 	public class AudioInProcessor implements Runnable{
 
 		private static final double EXTRAPOLATION_ERROR = 1.00000001;
-		//100 ms delay per frame
-		private static final long SYSTEM_TIME = 100000000;
+		//1 s delay per frame
+		private static final long SYSTEM_TIME = 1000000000;
 		private static final double EXTRAPOLATE_MAX = 4;
-		protected byte[] in;
+		protected byte[] writeBuffer;
+		protected byte[] inBuffer = new byte[AUDIO_BUFFER_SIZE];
+		protected byte[] inBufferTemp = null;
+		protected int inBufferPosition = 0;
 		protected double extrapolateNext = 1;
 		protected long pushWaitTime = 0;
 
+
+		protected ThreadPoolExecutor tpe;
+
+		public AudioInProcessor(){
+			tpe = new ThreadPoolExecutor(4, 128, 1000, TimeUnit.MILLISECONDS, new LinkedBlockingQueue<Runnable>());
+		}
 
 		@Override
 		public void run(){
 			long lastStart = Long.MIN_VALUE;
 			long diff = 0;
 			while(!closed){
-				while(in == null){
+				while(inBufferPosition != inBuffer.length){
 					synchronized(AudioInProcessor.this){
 						try{
 							AudioInProcessor.this.wait();
@@ -313,9 +333,10 @@ public class AudioMessageProcessor extends SocketProcessorAbstract<byte[]> imple
 				}
 				synchronized(AudioInProcessor.this){
 					lastStart = System.nanoTime();
-					line.write(in, 0, in.length);
+					line.write(writeBuffer, 0, writeBuffer.length);
 					diff = System.nanoTime() - lastStart;
-					in = null;
+					//System.out.println(diff);
+					inBufferPosition = 0;
 				}
 			}
 		}
@@ -332,12 +353,13 @@ public class AudioMessageProcessor extends SocketProcessorAbstract<byte[]> imple
 			public void run(){
 				long startPush = System.nanoTime();
 				synchronized(AudioInProcessor.this){
-					in = inX;
+					mesh(inX);
 					pushWaitTime = System.nanoTime() - startPush;
 					if(extrapolateNext > 1){
 						extrapolate();
 					}
 					else{
+						writeBuffer = inBuffer;
 						extrapolateNext = 1;
 					}
 					AudioInProcessor.this.notify();
@@ -346,23 +368,41 @@ public class AudioMessageProcessor extends SocketProcessorAbstract<byte[]> imple
 
 		}
 
+		private void mesh(byte[] inX2){
+			if(inBufferTemp != null){
+				System.arraycopy(inBufferTemp, 0, inBuffer, 0, inBufferTemp.length);
+				inBufferTemp = null;
+			}
+			if(inBufferPosition + inX2.length <= inBuffer.length){
+				System.arraycopy(inX2, 0, inBuffer, inBufferPosition, inX2.length);
+				inBufferPosition += inX2.length;
+			}
+			else{
+				System.arraycopy(inX2, 0, inBuffer, inBufferPosition, inBuffer.length - inBufferPosition);
+				inBufferTemp = new byte[inX2.length + inBufferPosition - inBuffer.length];
+				System.arraycopy(inX2, inBuffer.length - inBufferPosition, inBufferTemp, 0, inBufferTemp.length);
+
+				inBufferPosition = inBuffer.length;
+			}
+		}
+
 
 		public void push(byte[] in){
-			new Thread(new AudioInProcessorPusher(in)).start();
+			tpe.execute(new AudioInProcessorPusher(in));
 		}
 
 		protected void extrapolate(){
 			int bq = byteQuantum();
-			int outO = (int) (in.length * extrapolateNext / bq);
+			int outO = (int) (inBuffer.length * extrapolateNext / bq);
 			int out = outO * bq;
 			byte[] inNew = new byte[out];
 			for(int i = 0; i < outO / bq; i += bq){
-				int art = i * in.length / (out * bq) * bq;
+				int art = i * inBuffer.length / (out * bq) * bq;
 				for(int j = 0; j < bq; j++){
-					inNew[i + j] = in[art + j];
+					inNew[i + j] = inBuffer[art + j];
 				}
 			}
-			in = inNew;
+			writeBuffer = inNew;
 		}
 
 	}
