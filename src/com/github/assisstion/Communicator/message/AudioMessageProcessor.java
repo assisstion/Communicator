@@ -1,8 +1,10 @@
 package com.github.assisstion.Communicator.message;
 
 import java.io.IOException;
+import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioInputStream;
@@ -171,7 +173,8 @@ public class AudioMessageProcessor extends SocketProcessorAbstract<byte[]> imple
 		protected ExecutorService tpe;
 
 		public AudioOutProcessor(){
-			tpe = Executors.newCachedThreadPool();
+			tpe = new ThreadPoolExecutor(4, Integer.MAX_VALUE, 1000, TimeUnit.MILLISECONDS, new ArrayBlockingQueue<Runnable>(1024));
+			//tpe = Executors.newCachedThreadPool();
 		}
 
 		protected class AudioOutProcessorPusher implements Runnable{
@@ -304,7 +307,8 @@ public class AudioMessageProcessor extends SocketProcessorAbstract<byte[]> imple
 		protected ExecutorService tpe;
 
 		public AudioInProcessor(){
-			tpe = Executors.newCachedThreadPool();
+			tpe = new ThreadPoolExecutor(4, Integer.MAX_VALUE, 1000, TimeUnit.MILLISECONDS, new ArrayBlockingQueue<Runnable>(1024));
+			//tpe = Executors.newCachedThreadPool();
 		}
 
 		@Override
@@ -328,7 +332,7 @@ public class AudioMessageProcessor extends SocketProcessorAbstract<byte[]> imple
 					extrapolateNext = (megDiff - pushWaitTime) /
 							((diff + SYSTEM_TIME) * EXTRAPOLATION_ERROR);
 					extrapolateNext = extrapolateNext > EXTRAPOLATE_MAX ? EXTRAPOLATE_MAX : extrapolateNext;
-					System.out.println(extrapolateNext);
+					//System.out.println(extrapolateNext);
 				}
 				synchronized(AudioInProcessor.this){
 					lastStart = System.nanoTime();
