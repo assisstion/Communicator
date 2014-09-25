@@ -1,9 +1,8 @@
 package com.github.assisstion.Communicator.message;
 
 import java.io.IOException;
-import java.util.concurrent.ArrayBlockingQueue;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioInputStream;
@@ -169,10 +168,10 @@ public class AudioMessageProcessor extends SocketProcessorAbstract<byte[]> imple
 		protected byte[] outBuffer = new byte[AUDIO_BUFFER_SIZE];
 		protected int outBufferPosition = 0;
 
-		protected ThreadPoolExecutor tpe;
+		protected ExecutorService tpe;
 
 		public AudioOutProcessor(){
-			tpe = new ThreadPoolExecutor(4, 128, 1000, TimeUnit.MILLISECONDS, new ArrayBlockingQueue<Runnable>(128));
+			tpe = Executors.newCachedThreadPool();
 		}
 
 		protected class AudioOutProcessorPusher implements Runnable{
@@ -302,10 +301,10 @@ public class AudioMessageProcessor extends SocketProcessorAbstract<byte[]> imple
 		protected long pushWaitTime = 0;
 
 
-		protected ThreadPoolExecutor tpe;
+		protected ExecutorService tpe;
 
 		public AudioInProcessor(){
-			tpe = new ThreadPoolExecutor(4, 128, 1000, TimeUnit.MILLISECONDS, new ArrayBlockingQueue<Runnable>(128));
+			tpe = Executors.newCachedThreadPool();
 		}
 
 		@Override
