@@ -3,6 +3,8 @@ package com.github.assisstion.Communicator.relay.B;
 import java.io.IOException;
 import java.net.Socket;
 
+import com.github.assisstion.Communicator.relay.ClientMachineSocket;
+import com.github.assisstion.Communicator.relay.A.ClientSocketWrapper;
 import com.github.assisstion.Communicator.relay.A.SocketHandler;
 
 /**
@@ -179,8 +181,8 @@ public abstract class SocketHandlerAbstract<T> implements SocketHandler<T>{
 	}
 
 	@Override
-	public Socket getSocket(){
-		return socket;
+	public ClientMachineSocket getSocket(){
+		return new ClientSocketWrapper(socket);
 	}
 
 }

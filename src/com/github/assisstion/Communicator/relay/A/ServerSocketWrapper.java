@@ -8,11 +8,20 @@ import java.net.SocketException;
 
 import com.github.assisstion.Communicator.relay.ServerMachineSocket;
 
-
+/**
+ * A implementation of a ServerMachineSocket that wraps ServerSocket.
+ * See the documentation of ServerSocket for more method details.
+ *
+ * @author Markus Feng
+ */
 public class ServerSocketWrapper implements ServerMachineSocket{
 
 	protected ServerSocket socket;
 
+	/**
+	 * Creates a new ServerSocketWrapper with the given ServerSocket.
+	 * @param socket the ServerSocket to wrap
+	 */
 	public ServerSocketWrapper(ServerSocket socket){
 		this.socket = socket;
 	}

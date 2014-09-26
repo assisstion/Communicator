@@ -8,11 +8,20 @@ import java.net.SocketException;
 
 import com.github.assisstion.Communicator.relay.ClientMachineSocket;
 
-
+/**
+ * A implementation of a ClientMachineSocket that wraps Socket.
+ * See the documentation of Socket for more method details.
+ *
+ * @author Markus Feng
+ */
 public class ClientSocketWrapper implements ClientMachineSocket{
 
 	protected Socket socket;
 
+	/**
+	 * Creates a new ClientSocketWrapper with the given ClientSocket.
+	 * @param socket the Socket to wrap
+	 */
 	public ClientSocketWrapper(Socket socket){
 		this.socket = socket;
 	}

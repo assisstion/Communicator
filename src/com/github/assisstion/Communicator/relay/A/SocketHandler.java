@@ -4,6 +4,8 @@ import java.io.Closeable;
 import java.io.IOException;
 import java.net.Socket;
 
+import com.github.assisstion.Communicator.relay.ClientMachineSocket;
+
 /**
  * Used to handle Sockets in conjunction with SocketMachines.
  * Implementations read objects from a user defined input
@@ -28,8 +30,8 @@ public interface SocketHandler<T> extends Runnable, Closeable{
 	void push(T out) throws IOException;
 
 	/**
-	 * Returns the Socket that the SocketHandler is handling
-	 * @return the Socket that the SocketHandler is handling
+	 * Returns the Client Socket that the SocketHandler is handling
+	 * @return the Client Socket that the SocketHandler is handling
 	 */
-	Socket getSocket();
+	ClientMachineSocket getSocket();
 }

@@ -6,7 +6,19 @@ import java.net.InetAddress;
 import java.net.SocketAddress;
 import java.net.SocketException;
 
+/**
+ * A wrapper for a Socket or a ServerSocket to allow both to substitute for
+ * the same return object. Used in SocketMachine.
+ * All methods are methods shared between Socket and ServerSocket.
+ * See those classes for method documentation details.
+ *
+ * @author Markus Feng
+ */
 public interface MachineSocket extends Closeable{
+	/**
+	 * Returns the wrapped Socket.
+	 * @return the wrapped Socket.
+	 */
 	Object get();
 	void bind(SocketAddress bindpoint) throws IOException;
 	InetAddress getInetAddress();

@@ -39,6 +39,9 @@ public class SocketServer<T extends SocketHandler<?>> implements SocketServerMac
 	protected boolean started = false;
 	protected boolean closed = false;
 
+	/**
+	 * Creates a SocketServer without any arguments.
+	 */
 	protected SocketServer(){
 		clients = new LinkedList<T>();
 		listeners = new CopyOnWriteArraySet<SocketListener<T>>();

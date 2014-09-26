@@ -25,6 +25,9 @@ public class SocketClient<T extends SocketHandler<?>> implements SocketClientMac
 	protected boolean started = false;
 	protected boolean closed = false;
 
+	/**
+	 * Creates a SocketClient without any arguments.
+	 */
 	protected SocketClient(){
 
 	}
