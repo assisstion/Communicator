@@ -11,6 +11,13 @@
  * updated, so not all interfaces are in their final form. Feel free to
  * extend any class to provide your own additional functionality.
  *
+ * This API uses a significant amount of the java.net, java.io,
+ * java.util, and java.util.concurrent packages in its code.
+ *
+ * This particular package contains only interfaces that together define
+ * the functionality of SocketClients and SocketServers without providing
+ * an implementation.
+ *
  * @author Markus Feng
  */
 package com.github.assisstion.Communicator.relay;
