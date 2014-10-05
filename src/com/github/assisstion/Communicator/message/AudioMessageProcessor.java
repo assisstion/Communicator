@@ -14,8 +14,8 @@ import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.SourceDataLine;
 import javax.sound.sampled.TargetDataLine;
 
-import com.github.assisstion.Communicator.relay.B.SocketProcessorGenerator;
-import com.github.assisstion.Communicator.relay.C.SocketProcessorAbstract;
+import com.markusfeng.SocketRelay.B.SocketProcessorGenerator;
+import com.markusfeng.SocketRelay.C.SocketProcessorAbstract;
 
 
 public class AudioMessageProcessor extends SocketProcessorAbstract<byte[]> implements SocketProcessorGenerator<AudioMessageProcessor>, Runnable{

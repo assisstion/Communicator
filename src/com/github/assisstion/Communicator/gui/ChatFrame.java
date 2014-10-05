@@ -22,10 +22,10 @@ import com.github.assisstion.Communicator.message.AudioMessageProcessor;
 import com.github.assisstion.Communicator.message.MessageCommandProcessor;
 import com.github.assisstion.Communicator.message.MessageCommandProcessorImpl;
 import com.github.assisstion.Communicator.message.MessageProcessor;
-import com.github.assisstion.Communicator.relay.A.SocketClient;
-import com.github.assisstion.Communicator.relay.A.SocketHandler;
-import com.github.assisstion.Communicator.relay.A.SocketServer;
-import com.github.assisstion.Communicator.relay.C.SocketHelper;
+import com.markusfeng.SocketRelay.A.SocketClient;
+import com.markusfeng.SocketRelay.A.SocketHandler;
+import com.markusfeng.SocketRelay.A.SocketServer;
+import com.markusfeng.SocketRelay.C.SocketHelper;
 
 public class ChatFrame extends JFrame{
 

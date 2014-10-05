@@ -1,9 +1,0 @@
-/**
- * The com.github.assisstion.Communicator.relay API Stream package
- * contains implementations of SocketHandlers that handle byte[].
- * This package is used in conjunction with the B package to create
- * byte[] SocketMachines.
- *
- * @author Markus Feng
- */
-package com.github.assisstion.Communicator.relay.Stream;

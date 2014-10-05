@@ -5,9 +5,9 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 import com.github.assisstion.Communicator.message.MessageProcessor;
-import com.github.assisstion.Communicator.relay.A.SocketClient;
-import com.github.assisstion.Communicator.relay.A.SocketHandler;
-import com.github.assisstion.Communicator.relay.C.SocketHelper;
+import com.markusfeng.SocketRelay.A.SocketClient;
+import com.markusfeng.SocketRelay.A.SocketHandler;
+import com.markusfeng.SocketRelay.C.SocketHelper;
 
 public class MessageClient{
 	public static void start(String host, int port, MessageProcessor process) throws IOException{

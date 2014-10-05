@@ -6,9 +6,9 @@ import java.util.logging.Logger;
 
 import javax.sound.sampled.LineUnavailableException;
 
-import com.github.assisstion.Communicator.relay.A.SocketHandler;
-import com.github.assisstion.Communicator.relay.B.SocketProcessorGenerator;
-import com.github.assisstion.Communicator.relay.C.SocketProcessorAbstract;
+import com.markusfeng.SocketRelay.A.SocketHandler;
+import com.markusfeng.SocketRelay.B.SocketProcessorGenerator;
+import com.markusfeng.SocketRelay.C.SocketProcessorAbstract;
 
 
 public class MessageProcessor extends SocketProcessorAbstract<String> implements SocketProcessorGenerator<MessageProcessor>{
