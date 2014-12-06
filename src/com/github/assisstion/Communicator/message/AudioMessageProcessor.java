@@ -55,7 +55,7 @@ public class AudioMessageProcessor extends SocketProcessorAbstract<byte[]> imple
 		enabled = en;
 		if(en == true){
 			synchronized(this){
-				notify();
+				notifyAll();
 			}
 		}
 	}

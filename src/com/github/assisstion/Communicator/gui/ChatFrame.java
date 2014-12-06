@@ -27,6 +27,9 @@ import com.markusfeng.SocketRelay.A.SocketHandler;
 import com.markusfeng.SocketRelay.A.SocketServer;
 import com.markusfeng.SocketRelay.C.SocketHelper;
 
+/*
+ * Uses SocketRelay API 1.0
+ */
 public class ChatFrame extends JFrame{
 
 	private static final int PORT_MODIFIER = 1;

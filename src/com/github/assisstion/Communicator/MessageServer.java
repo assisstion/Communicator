@@ -20,7 +20,7 @@ public class MessageServer{
 			boolean on = true;
 			while(on){
 				String s = in.readLine();
-				if(s.equalsIgnoreCase("QUIT")){
+				if(s == null || s.equalsIgnoreCase("QUIT")){
 					break;
 				}
 				process.output(s, false);
